@@ -61,6 +61,9 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/**/discord.xml
+.idea/**/misc.xml
+
 
 # Gradle
 .idea/**/gradle.xml
