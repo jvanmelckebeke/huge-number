@@ -6,7 +6,7 @@
 #define RANDOM_PRIMES_TESTHELPER_H
 
 
-#include "hugenumber.h"
+#include "bigassnumber.h"
 
 void
 showTest(const string &operation, sll num1, sll num2, const BigAssNumber &a, const BigAssNumber &b, sll expected,

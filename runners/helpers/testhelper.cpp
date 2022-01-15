@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "testhelper.h"
-#include "hugenumber.h"
+#include "bigassnumber.h"
 
 using namespace std;
 

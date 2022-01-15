@@ -2,8 +2,8 @@
 // Created by Jari on 07/01/2022.
 //
 
-#ifndef RANDOM_PRIMES_HUGENUMBER_H
-#define RANDOM_PRIMES_HUGENUMBER_H
+#ifndef RANDOM_PRIMES_BIGASSNUMBER_H
+#define RANDOM_PRIMES_BIGASSNUMBER_H
 
 
 #include <ostream>
@@ -12,10 +12,12 @@
 #define ABS(X) (X)>= 0 ? (X) : (-(X))
 
 
+#define MAX_UNIT 10
+
+
 using namespace std;
 
 typedef long long int sll;
-typedef unsigned long long int ull;
 typedef unsigned char unit;
 
 enum Sign {
@@ -109,9 +111,7 @@ public:
     bool operator<=(const BigAssNumber &rhs) const;
 
     bool operator>=(const BigAssNumber &rhs) const;
-
-
 };
 
 
-#endif //RANDOM_PRIMES_HUGENUMBER_H
+#endif //RANDOM_PRIMES_BIGASSNUMBER_H
