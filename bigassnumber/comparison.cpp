@@ -10,8 +10,8 @@ bool BigAssNumber::operator==(sll number) const {
 }
 
 bool BigAssNumber::operator==(const BigAssNumber &rhs) const {
-    if (sign == rhs.sign && value == rhs.value) {
-        return true;
+    if (sign && rhs.sign) {
+        return sign == rhs.sign && value == rhs.value;
     }
 
     if (!sign != !rhs.sign) {

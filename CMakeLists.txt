@@ -13,5 +13,5 @@ add_executable(test_manual runners/manual_numbertest.cpp ${EXTRA_TOOLS})
 add_executable(test_automatic runners/automatic_numbertest.cpp ${EXTRA_TOOLS})
 
 
-target_link_libraries(test_manual bigassnumber)
-target_link_libraries(test_automatic bigassnumber)
+target_link_libraries(test_manual bignumber)
+target_link_libraries(test_automatic bignumber)
