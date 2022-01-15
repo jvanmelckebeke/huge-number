@@ -35,6 +35,13 @@ private:
 
     BigAssNumber *next;
 
+    BigAssNumber &addRang(unit amount);
+
+    BigAssNumber &addToRang(int rang, sll amount);
+
+    BigAssNumber &removeRang(unit amount);
+
+    int countRang(int current = 0);
 
 public:
     BigAssNumber();
@@ -72,6 +79,15 @@ public:
 
     BigAssNumber &operator*=(sll number);
 
+
+    BigAssNumber operator/(const BigAssNumber &b) const;
+
+    BigAssNumber operator/(sll number) const;
+
+    BigAssNumber &operator/=(const BigAssNumber &b);
+
+    BigAssNumber &operator/=(sll number);
+
     //misc
     void setFrom(BigAssNumber &other);
 
@@ -86,12 +102,6 @@ public:
     void setSign(Sign nSign);
 
     Sign getSign() const;
-
-    BigAssNumber &addRang(unit amount);
-
-    BigAssNumber &addToRang(int rang, sll amount);
-
-    BigAssNumber &removeRang(unit amount);
 
     //equality
     bool operator==(sll number) const;

@@ -175,3 +175,26 @@ BigAssNumber &BigAssNumber::operator*=(const BigAssNumber &b) {
 }
 
 #pragma endregion
+
+#pragma region division
+
+BigAssNumber BigAssNumber::operator/(const BigAssNumber &b) const {
+    BigAssNumber cpy = copy();
+    cpy /= b;
+    return cpy;
+}
+
+BigAssNumber BigAssNumber::operator/(sll number) const {
+    return *this / BigAssNumber(number);
+}
+
+BigAssNumber &BigAssNumber::operator/=(sll number) {
+    *this /= BigAssNumber(number);
+    return *this;
+}
+
+BigAssNumber &BigAssNumber::operator/=(const BigAssNumber &b) {
+
+}
+
+#pragma endregion

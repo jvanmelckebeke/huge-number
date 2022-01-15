@@ -9,7 +9,7 @@
 
 int main() {
     // AUTO TEST
-    sll ns[] = {16, 10001,64,999,12345678987654321,
+    sll ns[] = {16, 10001, 64, 999, 12345678987654321,
                 255511525,
                 123456789987654321,
                 73086254633065,
@@ -24,23 +24,9 @@ int main() {
     cout << "=== END VARS ===" << endl;
 
     for (auto num1: ns) {
-        BigAssNumber a = BigAssNumber(num1);
 
         for (auto num2: ns) {
-            BigAssNumber b = BigAssNumber(num2);
-
-            cout << "=== BEGIN TEST ===" << endl;
-
-            cout << "--- variables ---" << endl;
-            cout << "a = " << a << " = " << a.numValue() << endl;
-            cout << "b = " << b << " = " << b.numValue() << endl;
-            cout << "--- variables ---" << endl;
-
-            showTest("+", num1, num2, a, b, num1 + num2, a + b);
-            showTest("-", num1, num2, a, b, num1 - num2, a - b);
-            showTest("*", num1, num2, a, b, num1 * num2, a * b);
-
-            cout << "=== END TEST ===" << endl;
+            doTest(num1, num2);
         }
     }
 }

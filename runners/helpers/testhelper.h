@@ -12,4 +12,6 @@ void
 showTest(const string &operation, sll num1, sll num2, const BigAssNumber &a, const BigAssNumber &b, sll expected,
          const BigAssNumber &actual);
 
+void doTest(sll num1, sll num2);
+
 #endif //RANDOM_PRIMES_TESTHELPER_H

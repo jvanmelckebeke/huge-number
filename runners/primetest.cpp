@@ -32,7 +32,7 @@ T fastModPow(T base, T exp, T modulus)
     return result;
 }
 
-int mainPrimetest()
+int main()
 {
 
     // cool ones: 3221225473

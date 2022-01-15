@@ -4,6 +4,13 @@
 
 #include "bigassnumber.h"
 
+int BigAssNumber::countRang(int current) {
+    if (sign) {
+        return current;
+    }
+    return next->countRang(current+1);
+}
+
 BigAssNumber &BigAssNumber::addRang(unit amount) {
     if (next) {
         *next += BigAssNumber(amount * getSign());
