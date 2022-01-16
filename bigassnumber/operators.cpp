@@ -178,10 +178,79 @@ BigAssNumber &BigAssNumber::operator*=(const BigAssNumber &b) {
 
 #pragma region division
 
+DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
+    BigAssNumber result = BigAssNumber();
+    BigAssNumber remainder = BigAssNumber();
+    BigAssNumber babs = b.abs();
+
+    Sign resultingSign = (getSign() == b.getSign()) ? positive : negative;
+
+    if (getUnits() < babs.getUnits()) {
+        return {
+                new BigAssNumber(),
+                new BigAssNumber(copy())
+        };
+    } else if (getUnits() == babs.getUnits() || (getUnits() - 1 == babs.getUnits() && next->abs() < babs)) {
+        BigAssNumber cpy = abs();
+
+        int i = 0;
+
+        while (cpy >= babs) {
+            cpy -= babs;
+            i++;
+        }
+
+        result.value = i;
+
+        if (i > 10) {
+            cout << "WARNING" << endl;
+        }
+
+        result.setSign(resultingSign);
+        cpy.setSign(resultingSign);
+
+        return {
+                new BigAssNumber(result),
+                new BigAssNumber(cpy)
+        };
+    } else {
+        // meaning: getUnits() > babs.getUnits() + 1 && abs() > babs
+        BigAssNumber cpy = copy();
+        DivisionResult higherRangResult = next->divide(b);
+
+        result.next = higherRangResult.result;
+        result.sign = none;
+
+        if (*higherRangResult.remainder != 0) {
+            cpy.next = new BigAssNumber(*higherRangResult.remainder);
+
+            DivisionResult currentRangResult = cpy.divide(b);
+
+            result += *currentRangResult.result;
+            remainder = *currentRangResult.remainder;
+        } else {
+            if (babs <= value) {
+                // guaranties that babs only has one unit
+                result.value = value / babs.value;
+                remainder.value = value % babs.value;
+            } else {
+                result.value = 0;
+                remainder.value = value;
+            }
+        }
+
+
+        result.setSign(resultingSign);
+
+        return {
+                new BigAssNumber(result),
+                new BigAssNumber(remainder)
+        };
+    };
+}
+
 BigAssNumber BigAssNumber::operator/(const BigAssNumber &b) const {
-    BigAssNumber cpy = copy();
-    cpy /= b;
-    return cpy;
+    return *divide(b).result;
 }
 
 BigAssNumber BigAssNumber::operator/(sll number) const {
@@ -194,7 +263,33 @@ BigAssNumber &BigAssNumber::operator/=(sll number) {
 }
 
 BigAssNumber &BigAssNumber::operator/=(const BigAssNumber &b) {
+    BigAssNumber temp = *this / b;
+    setFrom(temp);
+    return *this;
+}
 
+#pragma endregion
+
+#pragma region remainder
+
+BigAssNumber BigAssNumber::operator%(const BigAssNumber &b) const {
+    return *divide(b).remainder;
+}
+
+BigAssNumber BigAssNumber::operator%(sll number) const {
+    return *this % BigAssNumber(number);
+}
+
+BigAssNumber &BigAssNumber::operator%=(const BigAssNumber &b) {
+    BigAssNumber temp = *this % b;
+    setFrom(temp);
+    return *this;
+}
+
+BigAssNumber &BigAssNumber::operator%=(sll number) {
+    BigAssNumber temp = *this % number;
+    setFrom(temp);
+    return *this;
 }
 
 #pragma endregion

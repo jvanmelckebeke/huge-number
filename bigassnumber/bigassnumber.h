@@ -24,6 +24,13 @@ enum Sign {
     none = 0, positive = 1, negative = -1
 };
 
+class BigAssNumber;
+
+typedef struct {
+    BigAssNumber *result;
+    BigAssNumber *remainder;
+} DivisionResult;
+
 class BigAssNumber {
     explicit operator std::string() const;
 
@@ -41,7 +48,11 @@ private:
 
     BigAssNumber &removeRang(unit amount);
 
-    int countRang(int current = 0);
+    DivisionResult divide(const BigAssNumber &b) const;
+
+protected:
+    int getUnits(int current = 0) const;
+
 
 public:
     BigAssNumber();
@@ -88,6 +99,14 @@ public:
 
     BigAssNumber &operator/=(sll number);
 
+    BigAssNumber operator%(const BigAssNumber &b) const;
+
+    BigAssNumber operator%(sll number) const;
+
+    BigAssNumber &operator%=(const BigAssNumber &b);
+
+    BigAssNumber &operator%=(sll number);
+
     //misc
     void setFrom(BigAssNumber &other);
 
@@ -108,6 +127,8 @@ public:
 
     bool operator==(const BigAssNumber &rhs) const;
 
+    bool operator!=(sll number) const;
+
     bool operator!=(const BigAssNumber &rhs) const;
 
 
@@ -118,9 +139,15 @@ public:
 
     bool operator>(const BigAssNumber &rhs) const;
 
+    bool operator>(sll number) const;
+
     bool operator<=(const BigAssNumber &rhs) const;
 
+    bool operator<=(sll number) const;
+
     bool operator>=(const BigAssNumber &rhs) const;
+
+    bool operator>=(sll number) const;
 };
 
 

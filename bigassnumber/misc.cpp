@@ -50,11 +50,8 @@ BigAssNumber BigAssNumber::negate() const {
 }
 
 BigAssNumber BigAssNumber::abs() const {
-    BigAssNumber cpy = *this;
-
-    if (cpy < 0) {
-        return cpy.negate();
-    }
+    BigAssNumber cpy = copy();
+    cpy.setSign(positive);
     return cpy;
 }
 

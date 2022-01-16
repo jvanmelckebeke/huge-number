@@ -25,13 +25,17 @@ bool BigAssNumber::operator==(const BigAssNumber &rhs) const {
     return false;
 }
 
+bool BigAssNumber::operator!=(sll number) const {
+    return *this != BigAssNumber(number);
+}
+
 bool BigAssNumber::operator!=(const BigAssNumber &rhs) const {
     return sign != rhs.sign || value != rhs.value || !(*this == rhs);
 }
 
 #pragma endregion
 
-#pragma region compare
+#pragma region compare numbers
 
 bool BigAssNumber::operator<(sll number) const {
     if (getSign() != GETSIGN(number)) {
@@ -44,6 +48,23 @@ bool BigAssNumber::operator<(sll number) const {
 
     return *this < BigAssNumber(number);
 }
+
+bool BigAssNumber::operator>(sll number) const {
+    return BigAssNumber(number) < *this;
+}
+
+bool BigAssNumber::operator<=(sll number) const {
+    return *this <= BigAssNumber(number);
+}
+
+bool BigAssNumber::operator>=(sll number) const {
+    return BigAssNumber(number) <= *this;
+}
+
+#pragma endregion
+
+
+#pragma region compare bigassnumber
 
 bool BigAssNumber::operator<(const BigAssNumber &rhs) const {
     // start with fast comparisons of the signs

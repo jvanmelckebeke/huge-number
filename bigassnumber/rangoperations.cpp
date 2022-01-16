@@ -4,11 +4,11 @@
 
 #include "bigassnumber.h"
 
-int BigAssNumber::countRang(int current) {
+int BigAssNumber::getUnits(int current) const {
     if (sign) {
         return current;
     }
-    return next->countRang(current+1);
+    return next->getUnits(current + 1);
 }
 
 BigAssNumber &BigAssNumber::addRang(unit amount) {

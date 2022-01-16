@@ -9,7 +9,7 @@
 using namespace std;
 
 void showTest(const string &operation, sll num1, sll num2, const BigAssNumber &a, const BigAssNumber &b, sll expected,
-         const BigAssNumber &actual) {
+              const BigAssNumber &actual) {
 
     cout << "[ testing " << operation << " ]" << endl;
 
@@ -37,13 +37,16 @@ void doTest(sll num1, sll num2) {
     cout << "copy b = " << b.copy() << endl;
     cout << "--- basics ---" << endl;
 
-    BigAssNumber actualSum = a+b;
-    BigAssNumber actualDiff = a-b;
-    BigAssNumber actualProduct =a *b;
+    BigAssNumber actualSum = a + b;
+    BigAssNumber actualDiff = a - b;
+    BigAssNumber actualProduct = a * b;
+    BigAssNumber actualDivision = a / b;
+    BigAssNumber actualRemainder = a % b;
 
     showTest("+", num1, num2, a, b, num1 + num2, actualSum);
     showTest("-", num1, num2, a, b, num1 - num2, actualDiff);
     showTest("*", num1, num2, a, b, num1 * num2, actualProduct);
-    showTest("/", num1, num2, a, b, num1 / num2, a / b);
+    showTest("/", num1, num2, a, b, num1 / num2, actualDivision);
+    showTest("mod", num1, num2, a, b, num1 % num2, actualRemainder);
     cout << "=== END TEST ===" << endl;
 }
