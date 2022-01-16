@@ -22,3 +22,21 @@ BigAssNumber pow(const BigAssNumber &base, const BigAssNumber &exponent) {
 
     return result;
 }
+
+BigAssNumber powMod(const BigAssNumber &base, const BigAssNumber &exponent, const BigAssNumber& modulo) {
+    BigAssNumber result = BigAssNumber(1);
+
+    BigAssNumber b = base % modulo;
+    BigAssNumber exp = exponent.copy();
+
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result = (result *b) % modulo;
+        }
+
+        b= (b * b) % modulo;
+        exp /= 2;
+    }
+
+    return result;
+}

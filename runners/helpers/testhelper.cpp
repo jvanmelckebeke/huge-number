@@ -17,6 +17,9 @@ using namespace std::chrono;
 auto start = high_resolution_clock::now();
 auto stop = high_resolution_clock::now();
 
+sll number1, number2;
+BigAssNumber bignumber1, bignumber2;
+
 void startTimer() {
     start = high_resolution_clock::now();
 }
@@ -34,8 +37,7 @@ TimeDuration lapTimer() {
     return duration;
 }
 
-void showTest(const string &operation, TimeDuration duration, sll number1, sll number2,
-              const BigAssNumber &bignumber1, const BigAssNumber &bignumber2,
+void showTest(const string &operation, TimeDuration duration,
               sll expected, const BigAssNumber &actual) {
 
     cout << "[[ testing " << operation << " ]]" << endl;
@@ -61,46 +63,50 @@ void showCompactTest(const string &operation, TimeDuration duration, bool isPass
 }
 
 void doTest(sll num1, sll num2) {
-    BigAssNumber a = BigAssNumber(num1);
-    BigAssNumber b = BigAssNumber(num2);
+    number1 = num1;
+    number2 = num2;
 
-    cout << "=== BEGIN MANUAL TEST ===" << endl;
+    bignumber1 = BigAssNumber(num1);
+    bignumber2 = BigAssNumber(num2);
+
+
+    cout << "=== BEGIN TEST ===" << endl;
 
     cout << "--- variables ---" << endl;
-    cout << "a = " << a << " = " << num1 << endl;
-    cout << "b = " << b << " = " << num2 << endl;
+    cout << "a = " << bignumber1 << " = " << num1 << endl;
+    cout << "b = " << bignumber2 << " = " << num2 << endl;
     cout << "--- variables ---" << endl;
 
-    cout << "--- basics ---" << endl;
-    cout << "copy a = " << a.copy() << endl;
-    cout << "copy b = " << b.copy() << endl;
-    cout << "--- basics ---" << endl;
+    /*cout << "--- basics ---" << endl;
+    cout << "copy a = " << bignumber1.copy() << endl;
+    cout << "copy b = " << bignumber2.copy() << endl;
+    cout << "--- basics ---" << endl;*/
 
     startTimer();
-    BigAssNumber actualSum = a + b;
+    BigAssNumber actualSum = bignumber1 + bignumber2;
     TimeDuration durationSum = lapTimer();
 
-    BigAssNumber actualDiff = a - b;
+    BigAssNumber actualDiff = bignumber1 - bignumber2;
     TimeDuration durationDiff = lapTimer();
 
-    BigAssNumber actualProduct = a * b;
+    BigAssNumber actualProduct = bignumber1 * bignumber2;
     TimeDuration durationProduct = lapTimer();
 
-    BigAssNumber actualDivision = a / b;
+    BigAssNumber actualDivision = bignumber1 / bignumber2;
     TimeDuration durationDivision = lapTimer();
 
-    BigAssNumber actualRemainder = a % b;
+    BigAssNumber actualRemainder = bignumber1 % bignumber2;
     TimeDuration durationRemainder = lapTimer();
 
-    BigAssNumber actualPower = pow(a, b);
+    BigAssNumber actualPower = powMod(bignumber1, bignumber2, bignumber2);
     TimeDuration durationPower = lapTimer();
 
-    showTest("+", durationSum, num1, num2, a, b, num1 + num2, actualSum);
-    showTest("-", durationDiff, num1, num2, a, b, num1 - num2, actualDiff);
-    showTest("*", durationProduct, num1, num2, a, b, num1 * num2, actualProduct);
-    showTest("/", durationDivision, num1, num2, a, b, num1 / num2, actualDivision);
-    showTest("%", durationRemainder, num1, num2, a, b, num1 % num2, actualRemainder);
-    showTest("^", durationPower, num1, num2, a, b, pow(num1, num2), actualPower);
+    /*showTest("+", durationSum, num1 + num2, actualSum);
+    showTest("-", durationDiff, num1 - num2, actualDiff);
+    showTest("*", durationProduct, num1 * num2, actualProduct);
+    showTest("/", durationDivision, num1 / num2, actualDivision);
+    showTest("%", durationRemainder, num1 % num2, actualRemainder);
+    showTest("^%", durationPower, pow(num1, num2), actualPower);*/
 
     cout << "== TIME DURATION ==" << endl;
 
@@ -110,7 +116,7 @@ void doTest(sll num1, sll num2) {
     showCompactTest("*", durationProduct, num1 * num2 == actualProduct.numValue());
     showCompactTest("/", durationDivision, num1 / num2 == actualDivision.numValue());
     showCompactTest("%", durationRemainder, num1 % num2 == actualRemainder.numValue());
-    showCompactTest("^", durationPower, pow(num1, num2) == actualPower.numValue());
+    showCompactTest("^%", durationPower, pow(num1, num2) == actualPower.numValue());
 
-    cout << "=== END TEST ===" << endl;
+    cout << "=== END TEST ===" << endl << endl;
 }

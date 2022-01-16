@@ -53,6 +53,9 @@ private:
 
 
 public:
+
+    explicit BigAssNumber(const string &number);
+
     explicit BigAssNumber(sll number);
 
     BigAssNumber();

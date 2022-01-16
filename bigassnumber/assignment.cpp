@@ -22,6 +22,34 @@ BigAssNumber::BigAssNumber(sll number) {
     }
 }
 
+BigAssNumber::BigAssNumber(const string &number) {
+    if (number.empty()) {
+        value = 0;
+        sign = positive;
+        next = nullptr;
+    }
+
+    int lastIdx = number.length() - 1;
+    char lastChar = number[lastIdx];
+
+    value = lastChar - '0';
+
+    if (lastIdx) {
+        char before = number[lastIdx-1];
+
+        if (isdigit(before)) {
+            sign = none;
+            next = new BigAssNumber(number.substr(0,lastIdx));
+        } else if (before == '-') {
+            sign = negative;
+        }
+    } else {
+
+        sign = positive;
+        next = nullptr;
+    }
+}
+
 
 // destructor
 BigAssNumber::~BigAssNumber() {
