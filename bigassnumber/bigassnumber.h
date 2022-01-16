@@ -5,12 +5,10 @@
 #ifndef RANDOM_PRIMES_BIGASSNUMBER_H
 #define RANDOM_PRIMES_BIGASSNUMBER_H
 
-
 #include <ostream>
 
 #define GETSIGN(X) (((X) >= 0) ? positive : negative)
 #define ABS(X) (X)>= 0 ? (X) : (-(X))
-
 
 #define MAX_UNIT 10
 
@@ -31,6 +29,10 @@ typedef struct {
     BigAssNumber *remainder;
 } DivisionResult;
 
+
+BigAssNumber pow(const BigAssNumber &base, const BigAssNumber &exponent);
+BigAssNumber powMod(const BigAssNumber &a, const BigAssNumber &b, const BigAssNumber &modulo);
+
 class BigAssNumber {
     explicit operator std::string() const;
 
@@ -39,7 +41,6 @@ class BigAssNumber {
 private:
     unit value;
     Sign sign;
-
     BigAssNumber *next;
 
     BigAssNumber &addRang(unit amount);
@@ -50,21 +51,18 @@ private:
 
     DivisionResult divide(const BigAssNumber &b) const;
 
-protected:
-    int getUnits(int current = 0) const;
-
 
 public:
-    BigAssNumber();
-
     explicit BigAssNumber(sll number);
+
+    BigAssNumber();
 
     ~BigAssNumber();
 
 
     BigAssNumber operator+(const BigAssNumber &b) const;
 
-    BigAssNumber operator+(sll num) const;
+    BigAssNumber operator+(sll number) const;
 
 
     BigAssNumber &operator+=(const BigAssNumber &b);
@@ -108,7 +106,7 @@ public:
     BigAssNumber &operator%=(sll number);
 
     //misc
-    void setFrom(BigAssNumber &other);
+    void setFrom(const BigAssNumber &other);
 
     BigAssNumber negate() const;
 
@@ -121,6 +119,8 @@ public:
     void setSign(Sign nSign);
 
     Sign getSign() const;
+
+    int getUnits(int current = 0) const;
 
     //equality
     bool operator==(sll number) const;

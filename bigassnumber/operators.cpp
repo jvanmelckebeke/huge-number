@@ -14,11 +14,11 @@ BigAssNumber BigAssNumber::operator+(const BigAssNumber &b) const {
     return cpy;
 }
 
-BigAssNumber BigAssNumber::operator+(sll num) const {
+BigAssNumber BigAssNumber::operator+(sll number) const {
 
 
     BigAssNumber cpy = copy();
-    cpy += num;
+    cpy += number;
     return cpy;
 }
 
@@ -64,12 +64,9 @@ BigAssNumber BigAssNumber::operator-(sll num) const {
 }
 
 BigAssNumber BigAssNumber::operator-(const BigAssNumber &b) const {
-
     BigAssNumber cpy = copy();
     cpy -= b;
-
     return cpy;
-
 }
 
 BigAssNumber &BigAssNumber::operator-=(sll number) {
@@ -202,10 +199,6 @@ DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
 
         result.value = i;
 
-        if (i > 10) {
-            cout << "WARNING" << endl;
-        }
-
         result.setSign(resultingSign);
         cpy.setSign(resultingSign);
 
@@ -215,20 +208,12 @@ DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
         };
     } else {
         // meaning: getUnits() > babs.getUnits() + 1 && abs() > babs
-        BigAssNumber cpy = copy();
         DivisionResult higherRangResult = next->divide(b);
 
         result.next = higherRangResult.result;
         result.sign = none;
 
-        if (*higherRangResult.remainder != 0) {
-            cpy.next = new BigAssNumber(*higherRangResult.remainder);
-
-            DivisionResult currentRangResult = cpy.divide(b);
-
-            result += *currentRangResult.result;
-            remainder = *currentRangResult.remainder;
-        } else {
+        if (*higherRangResult.remainder == 0) {
             if (babs <= value) {
                 // guaranties that babs only has one unit
                 result.value = value / babs.value;
@@ -237,6 +222,16 @@ DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
                 result.value = 0;
                 remainder.value = value;
             }
+        } else {
+            BigAssNumber divisionToDo = BigAssNumber(value);
+            divisionToDo.sign = none;
+
+            divisionToDo.next = new BigAssNumber(*higherRangResult.remainder);
+
+            DivisionResult currentRangResult = divisionToDo.divide(b);
+
+            result += *currentRangResult.result;
+            remainder = *currentRangResult.remainder;
         }
 
 

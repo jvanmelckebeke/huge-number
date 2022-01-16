@@ -1,4 +1,5 @@
 #include <iostream>
+#include "bigassnumber.h"
 
 typedef unsigned long long int ull;
 
@@ -24,7 +25,6 @@ T fastModPow(T base, T exp, T modulus)
             result = (result * base) % modulus;
 
         base = (base * base) % modulus;
-        //cout << "a^r, currently: " << divider << "^" << power << " = " << result << endl;
         exp >>= 1;
     }
     // cout << "[ END DEBUG ] " << endl
@@ -37,7 +37,7 @@ int main()
 
     // cool ones: 3221225473
 
-    ull numToCheck = 32212254719;
+    BigAssNumber numToCheck = BigAssNumber(32212254719);
     cout << "executing the Miller-Rabin primality test on p = " << numToCheck << endl;
 
     // rewrite number
@@ -45,11 +45,11 @@ int main()
 
     bool isPrime = true;
 
-    ull d = numToCheck ^ 1; // = number - 1, but cooler
+    BigAssNumber d = numToCheck -1; // = number - 1, but cooler
     ull r = 0;
     while (d % 2 == 0)
     {
-        d >>= 1;
+        d /= 2;
         r++;
     }
 
@@ -62,7 +62,7 @@ int main()
 
         cout << "--( 1  ) calculate a^d mod n ==> ";
 
-        ull result = fastModPow(witness, d, numToCheck);
+        BigAssNumber result = fastModPow(witness, d, numToCheck);
 
         /*
         this is some slow shit
@@ -75,7 +75,7 @@ int main()
 
         cout << witness << "^" << d << " mod " << numToCheck << " = " << result << endl;
 
-        bool isOne = result == 1 || result == numToCheck - 1;
+        bool isOne = result == 1 || numToCheck - 1 == result;
         cout << "--( 2  ) is result = 1 or (p - 1) ? " << (isOne ? "Yes" : "No") << endl;
 
         if (!isOne)

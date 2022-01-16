@@ -17,7 +17,7 @@ constexpr Sign negateSign(Sign sign) {
     }
 }
 
-void BigAssNumber::setFrom(BigAssNumber &other) {
+void BigAssNumber::setFrom(const BigAssNumber &other) {
     value = other.value;
     sign = other.sign;
 

@@ -9,7 +9,7 @@
 #include "bigassnumber.h"
 
 void
-showTest(const string &operation, sll num1, sll num2, const BigAssNumber &a, const BigAssNumber &b, sll expected,
+showTest(const string &operation, sll number1, sll number2, const BigAssNumber &bignumber1, const BigAssNumber &bignumber2, sll expected,
          const BigAssNumber &actual);
 
 void doTest(sll num1, sll num2);

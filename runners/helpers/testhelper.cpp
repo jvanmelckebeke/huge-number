@@ -3,22 +3,61 @@
 //
 
 #include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <chrono>
+
+
 #include "testhelper.h"
 #include "bigassnumber.h"
 
 using namespace std;
+using namespace std::chrono;
 
-void showTest(const string &operation, sll num1, sll num2, const BigAssNumber &a, const BigAssNumber &b, sll expected,
-              const BigAssNumber &actual) {
+auto start = high_resolution_clock::now();
+auto stop = high_resolution_clock::now();
 
-    cout << "[ testing " << operation << " ]" << endl;
+void startTimer() {
+    start = high_resolution_clock::now();
+}
 
-    cout << "[EXPECT] " << num1 << " " << operation << " " << num2 << " = " << expected << endl;
-    cout << "[ACTUAL] (" << a << " " << operation << " " << b << ") == " << actual << endl;
-    cout << "[ACTUAL] " << a.numValue() << " " << operation << " " << b.numValue() << " = " << actual.numValue()
+void stopTimer() {
+    stop = high_resolution_clock::now();
+}
+
+typedef duration<long long, ratio<1, 1000000000>> TimeDuration;
+
+TimeDuration lapTimer() {
+    stopTimer();
+    TimeDuration duration = (stop - start);
+    startTimer();
+    return duration;
+}
+
+void showTest(const string &operation, TimeDuration duration, sll number1, sll number2,
+              const BigAssNumber &bignumber1, const BigAssNumber &bignumber2,
+              sll expected, const BigAssNumber &actual) {
+
+    cout << "[[ testing " << operation << " ]]" << endl;
+
+    cout << "[EXPECT NUM] " << number1 << " " << operation << " " << number2 << " = " << expected << endl;
+    cout << "[ACTUAL OBJ] " << bignumber1 << " " << operation << " " << bignumber2 << " = " << actual << endl;
+    cout << "[ACTUAL NUM] " << bignumber1.numValue() << " " << operation << " " << bignumber2.numValue() << " = "
+         << actual.numValue()
          << endl;
-    cout << "[RESULT] " << ((actual.numValue() == expected) ? "PASS" : "FAIL OR OVERFLOW") << endl;
+    cout << "[RESULT NUM] " << ((actual.numValue() == expected) ? "PASS" : "FAIL OR OVERFLOW") << endl;
+    cout << "[DURATION  ] " << duration_cast<microseconds>(duration).count() << " us" << endl;
     cout << endl;
+}
+
+void showCompactTestHeader() {
+    cout << "operation | result | time taken" << endl;
+    cout << "========= | ====== | ==========" << endl;
+}
+
+void showCompactTest(const string &operation, TimeDuration duration, bool isPass) {
+    cout << setw(5) << right << operation << "    " << " |  " << (isPass ? "PASS" : "FAIL") << "  | "
+         << duration_cast<microseconds>(duration).count() << " us" << endl;
 }
 
 void doTest(sll num1, sll num2) {
@@ -37,16 +76,41 @@ void doTest(sll num1, sll num2) {
     cout << "copy b = " << b.copy() << endl;
     cout << "--- basics ---" << endl;
 
+    startTimer();
     BigAssNumber actualSum = a + b;
-    BigAssNumber actualDiff = a - b;
-    BigAssNumber actualProduct = a * b;
-    BigAssNumber actualDivision = a / b;
-    BigAssNumber actualRemainder = a % b;
+    TimeDuration durationSum = lapTimer();
 
-    showTest("+", num1, num2, a, b, num1 + num2, actualSum);
-    showTest("-", num1, num2, a, b, num1 - num2, actualDiff);
-    showTest("*", num1, num2, a, b, num1 * num2, actualProduct);
-    showTest("/", num1, num2, a, b, num1 / num2, actualDivision);
-    showTest("mod", num1, num2, a, b, num1 % num2, actualRemainder);
+    BigAssNumber actualDiff = a - b;
+    TimeDuration durationDiff = lapTimer();
+
+    BigAssNumber actualProduct = a * b;
+    TimeDuration durationProduct = lapTimer();
+
+    BigAssNumber actualDivision = a / b;
+    TimeDuration durationDivision = lapTimer();
+
+    BigAssNumber actualRemainder = a % b;
+    TimeDuration durationRemainder = lapTimer();
+
+    BigAssNumber actualPower = pow(a, b);
+    TimeDuration durationPower = lapTimer();
+
+    showTest("+", durationSum, num1, num2, a, b, num1 + num2, actualSum);
+    showTest("-", durationDiff, num1, num2, a, b, num1 - num2, actualDiff);
+    showTest("*", durationProduct, num1, num2, a, b, num1 * num2, actualProduct);
+    showTest("/", durationDivision, num1, num2, a, b, num1 / num2, actualDivision);
+    showTest("%", durationRemainder, num1, num2, a, b, num1 % num2, actualRemainder);
+    showTest("^", durationPower, num1, num2, a, b, pow(num1, num2), actualPower);
+
+    cout << "== TIME DURATION ==" << endl;
+
+    showCompactTestHeader();
+    showCompactTest("+", durationSum, num1 + num2 == actualSum.numValue());
+    showCompactTest("-", durationDiff, num1 - num2 == actualDiff.numValue());
+    showCompactTest("*", durationProduct, num1 * num2 == actualProduct.numValue());
+    showCompactTest("/", durationDivision, num1 / num2 == actualDivision.numValue());
+    showCompactTest("%", durationRemainder, num1 % num2 == actualRemainder.numValue());
+    showCompactTest("^", durationPower, pow(num1, num2) == actualPower.numValue());
+
     cout << "=== END TEST ===" << endl;
 }
