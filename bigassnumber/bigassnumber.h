@@ -49,7 +49,7 @@ private:
 
     BigAssNumber &removeRang(unit amount);
 
-    DivisionResult divide(const BigAssNumber &b) const;
+    [[nodiscard]] DivisionResult divide(const BigAssNumber &b) const;
 
 
 public:
