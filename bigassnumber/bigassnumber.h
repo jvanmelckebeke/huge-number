@@ -31,6 +31,7 @@ typedef struct {
 
 
 BigAssNumber pow(const BigAssNumber &base, const BigAssNumber &exponent);
+
 BigAssNumber powMod(const BigAssNumber &a, const BigAssNumber &b, const BigAssNumber &modulo);
 
 class BigAssNumber {
@@ -54,13 +55,15 @@ private:
 
 public:
 
-    explicit BigAssNumber(const string &number);
+    explicit BigAssNumber(const string &numberString);
 
     explicit BigAssNumber(sll number);
 
     BigAssNumber();
 
     ~BigAssNumber();
+
+    BigAssNumber(const BigAssNumber &copy) ;
 
 
     BigAssNumber operator+(const BigAssNumber &b) const;

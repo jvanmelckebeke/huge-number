@@ -22,32 +22,42 @@ BigAssNumber::BigAssNumber(sll number) {
     }
 }
 
-BigAssNumber::BigAssNumber(const string &number) {
-    if (number.empty()) {
+BigAssNumber::BigAssNumber(const string &numberString) {
+    if (numberString.empty()) {
         value = 0;
         sign = positive;
         next = nullptr;
+        return;
     }
 
-    int lastIdx = number.length() - 1;
-    char lastChar = number[lastIdx];
+    int lastIdx = numberString.length() - 1;
+    char lastChar = numberString[lastIdx];
 
     value = lastChar - '0';
 
     if (lastIdx) {
-        char before = number[lastIdx-1];
+
+        char before = numberString[lastIdx - 1];
 
         if (isdigit(before)) {
             sign = none;
-            next = new BigAssNumber(number.substr(0,lastIdx));
+            next = new BigAssNumber(numberString.substr(0, lastIdx));
         } else if (before == '-') {
             sign = negative;
         }
     } else {
-
         sign = positive;
-        next = nullptr;
     }
+    next = nullptr;
+
+}
+
+// copy constructor
+BigAssNumber::BigAssNumber(const BigAssNumber &copy) : value(copy.value), sign(copy.sign) {
+    if (copy.next)
+        next = new BigAssNumber(*copy.next);
+    else
+        next = nullptr;
 }
 
 

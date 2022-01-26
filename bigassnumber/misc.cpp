@@ -60,20 +60,8 @@ BigAssNumber BigAssNumber::abs() const {
 }
 
 BigAssNumber BigAssNumber::copy() const {
-    BigAssNumber cpy = BigAssNumber();
-
-    cpy.sign = sign;
-    cpy.value = value;
-
-
-    if (next) {
-        cpy.next = new BigAssNumber(next->copy());
-    } else {
-        cpy.next = nullptr;
-    }
-
+    BigAssNumber cpy = BigAssNumber(*this);
     return cpy;
-
 }
 
 sll BigAssNumber::numValue() const {
