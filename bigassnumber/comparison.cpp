@@ -10,11 +10,12 @@ bool BigAssNumber::operator==(sll number) const {
 }
 
 bool BigAssNumber::operator==(const BigAssNumber &rhs) const {
+
     if (sign && rhs.sign) {
         return sign == rhs.sign && value == rhs.value;
     }
 
-    if (!sign != !rhs.sign) {
+    if (sign != rhs.sign) {
         return false;
     }
 
@@ -38,12 +39,18 @@ bool BigAssNumber::operator!=(const BigAssNumber &rhs) const {
 #pragma region compare numbers
 
 bool BigAssNumber::operator<(sll number) const {
-    if (getSign() != GETSIGN(number)) {
-        return getSign() < GETSIGN(number);
+    if (sign) {
+        return value * sign < number;
+    }
+
+    Sign fullSign = getSign();
+
+    if (fullSign != GETSIGN(number)) {
+        return fullSign < GETSIGN(number);
     }
 
     if (number == 0) {
-        return getSign() == negative;
+        return fullSign == negative;
     }
 
     return *this < BigAssNumber(number);
@@ -67,7 +74,7 @@ bool BigAssNumber::operator>=(sll number) const {
 #pragma region compare bigassnumber
 
 bool BigAssNumber::operator<(const BigAssNumber &rhs) const {
-    // start with fast comparisons of the signs
+    // recursively compare signs
     switch (sign) {
         case positive:
             switch (rhs.sign) {

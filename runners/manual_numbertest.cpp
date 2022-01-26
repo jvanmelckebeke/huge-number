@@ -8,6 +8,6 @@
 int main() {
     // MANUAL TEST
 
-    sll  num1 = 12345678, num2 = 12345678910987;
+    sll  num1 = 16, num2 = 8569513912588782822;
     doTest(num1, num2, true);
 }

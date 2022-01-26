@@ -2,8 +2,6 @@
 // Created by Jari on 17/01/2022.
 //
 
-
-#include <iostream>
 #include "bigassnumber.h"
 
 BigAssNumber BigAssNumber::operator-(sll num) const {
@@ -30,33 +28,27 @@ BigAssNumber &BigAssNumber::operator-=(const BigAssNumber &b) {
     }
 
     if (*this < b) {
-        BigAssNumber result = b.copy();
-        result -= *this;
-        BigAssNumber blup = result.negate();
-
-        setFrom(blup);
+        BigAssNumber result = b - *this;
+        BigAssNumber negated = result.negate();
+        setFrom(negated);
         return *this;
     }
 
-    if (b.value > value) {
+    if (value < b.value) {
         removeRang(1);
         value += MAX_UNIT - b.value;
     } else {
         value -= b.value;
     }
 
-    if (b.next) {
-        if (next) {
-            *next -= *b.next;
+    if (b.next && next) {
+        *next -= *b.next;
 
-            if (next->value == 0 && next->sign) {
-                sign = next->sign;
-                next = nullptr;
-            }
-
-        } else {
-            cout << "something went wrong" << endl;
+        if (next->value == 0 && next->sign) {
+            sign = next->sign;
+            next = nullptr;
         }
+
     }
 
     return *this;

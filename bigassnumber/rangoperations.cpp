@@ -13,7 +13,7 @@ int BigAssNumber::getUnits(int current) const {
 
 BigAssNumber &BigAssNumber::addRang(unit amount) {
     if (next) {
-        *next += BigAssNumber(amount);
+        *next += amount;
     } else {
         next = new BigAssNumber(amount );
         sign = none;
