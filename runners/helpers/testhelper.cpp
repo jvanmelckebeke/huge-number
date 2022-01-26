@@ -10,32 +10,17 @@
 
 #include "testhelper.h"
 #include "bigassnumber.h"
+#include "Timer.h"
+
+#define MODULUS 1000
 
 using namespace std;
 using namespace std::chrono;
 
-auto start = high_resolution_clock::now();
-auto stop = high_resolution_clock::now();
+Timer timer = Timer();
 
 sll number1, number2;
 BigAssNumber bignumber1, bignumber2;
-
-void startTimer() {
-    start = high_resolution_clock::now();
-}
-
-void stopTimer() {
-    stop = high_resolution_clock::now();
-}
-
-typedef duration<long long, ratio<1, 1000000000>> TimeDuration;
-
-TimeDuration lapTimer() {
-    stopTimer();
-    TimeDuration duration = (stop - start);
-    startTimer();
-    return duration;
-}
 
 void showTest(const string &operation, TimeDuration duration,
               sll expected, const BigAssNumber &actual) {
@@ -62,12 +47,13 @@ void showCompactTest(const string &operation, TimeDuration duration, bool isPass
          << duration_cast<microseconds>(duration).count() << " us" << endl;
 }
 
-void doTest(sll num1, sll num2) {
+void doTest(sll num1, sll num2, bool showExpanded) {
     number1 = num1;
     number2 = num2;
 
     bignumber1 = BigAssNumber(num1);
     bignumber2 = BigAssNumber(num2);
+    BigAssNumber modulus = BigAssNumber(MODULUS);
 
 
     cout << "=== BEGIN TEST ===" << endl;
@@ -82,32 +68,37 @@ void doTest(sll num1, sll num2) {
     cout << "copy b = " << bignumber2.copy() << endl;
     cout << "--- basics ---" << endl;*/
 
-    startTimer();
+    timer.startTimer();
     BigAssNumber actualSum = bignumber1 + bignumber2;
-    TimeDuration durationSum = lapTimer();
+    TimeDuration durationSum = timer.lapTimer();
 
     BigAssNumber actualDiff = bignumber1 - bignumber2;
-    TimeDuration durationDiff = lapTimer();
+    TimeDuration durationDiff = timer.lapTimer();
 
     BigAssNumber actualProduct = bignumber1 * bignumber2;
-    TimeDuration durationProduct = lapTimer();
+    TimeDuration durationProduct = timer.lapTimer();
 
     BigAssNumber actualDivision = bignumber1 / bignumber2;
-    TimeDuration durationDivision = lapTimer();
+    TimeDuration durationDivision = timer.lapTimer();
 
     BigAssNumber actualRemainder = bignumber1 % bignumber2;
-    TimeDuration durationRemainder = lapTimer();
+    TimeDuration durationRemainder = timer.lapTimer();
 
-    BigAssNumber actualPower = powMod(bignumber1, bignumber2, bignumber2);
-    TimeDuration durationPower = lapTimer();
+/*    BigAssNumber actualPower = pow(bignumber1, bignumber2);
+    TimeDuration durationPower = timer.lapTimer();*/
 
-    /*showTest("+", durationSum, num1 + num2, actualSum);
-    showTest("-", durationDiff, num1 - num2, actualDiff);
-    showTest("*", durationProduct, num1 * num2, actualProduct);
-    showTest("/", durationDivision, num1 / num2, actualDivision);
-    showTest("%", durationRemainder, num1 % num2, actualRemainder);
-    showTest("^%", durationPower, pow(num1, num2), actualPower);*/
+    BigAssNumber actualPowMod = powMod(bignumber1, bignumber2, modulus);
+    TimeDuration durationPowMod = timer.lapTimer();
 
+    if (showExpanded) {
+        showTest("+", durationSum, num1 + num2, actualSum);
+        showTest("-", durationDiff, num1 - num2, actualDiff);
+        showTest("*", durationProduct, num1 * num2, actualProduct);
+        showTest("/", durationDivision, num1 / num2, actualDivision);
+        showTest("%", durationRemainder, num1 % num2, actualRemainder);
+//        showTest("^", durationPower, pow(num1, num2), actualPower);
+        showTest("^%", durationPowMod, ((sll) pow(num1, num2)) % MODULUS, actualPowMod);
+    }
     cout << "== TIME DURATION ==" << endl;
 
     showCompactTestHeader();
@@ -116,7 +107,8 @@ void doTest(sll num1, sll num2) {
     showCompactTest("*", durationProduct, num1 * num2 == actualProduct.numValue());
     showCompactTest("/", durationDivision, num1 / num2 == actualDivision.numValue());
     showCompactTest("%", durationRemainder, num1 % num2 == actualRemainder.numValue());
-    showCompactTest("^%", durationPower, pow(num1, num2) == actualPower.numValue());
+//    showCompactTest("^", durationPower, pow(num1, num2) == actualPower.numValue());
+    showCompactTest("^%", durationPowMod, ((sll)pow(num1, num2)) == actualPowMod.numValue());
 
     cout << "=== END TEST ===" << endl << endl;
 }

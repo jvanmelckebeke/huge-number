@@ -13,9 +13,9 @@ int BigAssNumber::getUnits(int current) const {
 
 BigAssNumber &BigAssNumber::addRang(unit amount) {
     if (next) {
-        *next += BigAssNumber(amount * getSign());
+        *next += BigAssNumber(amount);
     } else {
-        next = new BigAssNumber(amount * getSign());
+        next = new BigAssNumber(amount );
         sign = none;
     }
 

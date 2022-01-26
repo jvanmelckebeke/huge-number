@@ -44,7 +44,11 @@ Sign BigAssNumber::getSign() const {
 BigAssNumber BigAssNumber::negate() const {
     BigAssNumber c = copy();
 
-    c.setSign(negateSign(c.getSign()));
+    if (sign) {
+        c.sign = negateSign(c.sign);
+    } else {
+        c.next = new BigAssNumber(c.next->negate());
+    }
 
     return c;
 }
@@ -60,6 +64,8 @@ BigAssNumber BigAssNumber::copy() const {
 
     cpy.sign = sign;
     cpy.value = value;
+
+
     if (next) {
         cpy.next = new BigAssNumber(next->copy());
     } else {
