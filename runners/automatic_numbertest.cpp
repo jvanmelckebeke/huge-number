@@ -4,7 +4,7 @@
 
 
 #include <iostream>
-#include "bigassnumber.h"
+#include "bignumber.h"
 #include "helpers/testhelper.h"
 
 int main() {
@@ -18,7 +18,7 @@ int main() {
                 8569513912588782822};
     cout << "=== VARS ===" << endl;
     for (auto num: ns) {
-        cout << num << " = " << BigAssNumber(num) << endl;
+        cout << num << " = " << BigNumber(num) << endl;
     }
 
     cout << "=== END VARS ===" << endl;

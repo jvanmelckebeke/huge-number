@@ -3,7 +3,7 @@
 //
 
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
 
 constexpr Sign negateSign(Sign sign) {
@@ -17,16 +17,16 @@ constexpr Sign negateSign(Sign sign) {
     }
 }
 
-void BigAssNumber::setFrom(const BigAssNumber &other) {
+void BigNumber::setFrom(const BigNumber &other) {
     value = other.value;
     sign = other.sign;
 
     if (other.next) {
-        next = new BigAssNumber(other.next->copy());
+        next = new BigNumber(other.next->copy());
     } else { next = nullptr; }
 }
 
-void BigAssNumber::setSign(Sign nSign) {
+void BigNumber::setSign(Sign nSign) {
     if (next) {
         next->setSign(nSign);
     } else {
@@ -34,48 +34,42 @@ void BigAssNumber::setSign(Sign nSign) {
     }
 }
 
-Sign BigAssNumber::getSign() const {
+Sign BigNumber::getSign() const {
     if (sign) { // none is defined as 0 in enum Sign
         return sign;
     }
     return next->getSign();
 }
 
-BigAssNumber BigAssNumber::negate() const {
-    BigAssNumber c = copy();
+BigNumber BigNumber::negate() const {
+    BigNumber c = copy();
 
-    c.setSign(negateSign(c.getSign()));
+    if (sign) {
+        c.sign = negateSign(c.sign);
+    } else {
+        c.next = new BigNumber(c.next->negate());
+    }
 
     return c;
 }
 
-BigAssNumber BigAssNumber::abs() const {
-    BigAssNumber cpy = copy();
+BigNumber BigNumber::abs() const {
+    BigNumber cpy = copy();
     cpy.setSign(positive);
     return cpy;
 }
 
-BigAssNumber BigAssNumber::copy() const {
-    BigAssNumber cpy = BigAssNumber();
-
-    cpy.sign = sign;
-    cpy.value = value;
-    if (next) {
-        cpy.next = new BigAssNumber(next->copy());
-    } else {
-        cpy.next = nullptr;
-    }
-
+BigNumber BigNumber::copy() const {
+    BigNumber cpy = BigNumber(*this);
     return cpy;
-
 }
 
-sll BigAssNumber::numValue() const {
+sll BigNumber::numValue() const {
     sll result = value;
 
     sll rang = MAX_UNIT;
 
-    BigAssNumber c = copy();
+    BigNumber c = copy();
 
     while (c.next) {
         c = *c.next;

@@ -5,22 +5,22 @@
 
 #pragma region division
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
-DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
-    BigAssNumber result = BigAssNumber();
-    BigAssNumber remainder = BigAssNumber();
-    BigAssNumber babs = b.abs();
+DivisionResult BigNumber::divide(const BigNumber &b) const {
+    BigNumber result = BigNumber();
+    BigNumber remainder = BigNumber();
+    BigNumber babs = b.abs();
 
     Sign resultingSign = (getSign() == b.getSign()) ? positive : negative;
 
     if (getUnits() < babs.getUnits()) {
         return {
-                new BigAssNumber(),
-                new BigAssNumber(copy())
+                new BigNumber(),
+                new BigNumber(copy())
         };
     } else if (getUnits() == babs.getUnits() || (getUnits() - 1 == babs.getUnits() && next->abs() < babs)) {
-        BigAssNumber cpy = abs();
+        BigNumber cpy = abs();
 
         int i = 0;
 
@@ -35,8 +35,8 @@ DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
         cpy.setSign(resultingSign);
 
         return {
-                new BigAssNumber(result),
-                new BigAssNumber(cpy)
+                new BigNumber(result),
+                new BigNumber(cpy)
         };
     } else {
         // meaning: getUnits() > babs.getUnits() + 1 && abs() > babs
@@ -55,10 +55,10 @@ DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
                 remainder.value = value;
             }
         } else {
-            BigAssNumber divisionToDo = BigAssNumber(value);
+            BigNumber divisionToDo = BigNumber(value);
             divisionToDo.sign = none;
 
-            divisionToDo.next = new BigAssNumber(*higherRangResult.remainder);
+            divisionToDo.next = new BigNumber(*higherRangResult.remainder);
 
             DivisionResult currentRangResult = divisionToDo.divide(b);
 
@@ -70,27 +70,27 @@ DivisionResult BigAssNumber::divide(const BigAssNumber &b) const {
         result.setSign(resultingSign);
 
         return {
-                new BigAssNumber(result),
-                new BigAssNumber(remainder)
+                new BigNumber(result),
+                new BigNumber(remainder)
         };
     };
 }
 
-BigAssNumber BigAssNumber::operator/(const BigAssNumber &b) const {
+BigNumber BigNumber::operator/(const BigNumber &b) const {
     return *divide(b).result;
 }
 
-BigAssNumber BigAssNumber::operator/(sll number) const {
-    return *this / BigAssNumber(number);
+BigNumber BigNumber::operator/(sll number) const {
+    return *this / BigNumber(number);
 }
 
-BigAssNumber &BigAssNumber::operator/=(sll number) {
-    *this /= BigAssNumber(number);
+BigNumber &BigNumber::operator/=(sll number) {
+    *this /= BigNumber(number);
     return *this;
 }
 
-BigAssNumber &BigAssNumber::operator/=(const BigAssNumber &b) {
-    BigAssNumber temp = *this / b;
+BigNumber &BigNumber::operator/=(const BigNumber &b) {
+    BigNumber temp = *this / b;
     setFrom(temp);
     return *this;
 }
@@ -99,22 +99,22 @@ BigAssNumber &BigAssNumber::operator/=(const BigAssNumber &b) {
 
 #pragma region remainder
 
-BigAssNumber BigAssNumber::operator%(const BigAssNumber &b) const {
+BigNumber BigNumber::operator%(const BigNumber &b) const {
     return *divide(b).remainder;
 }
 
-BigAssNumber BigAssNumber::operator%(sll number) const {
-    return *this % BigAssNumber(number);
+BigNumber BigNumber::operator%(sll number) const {
+    return *this % BigNumber(number);
 }
 
-BigAssNumber &BigAssNumber::operator%=(const BigAssNumber &b) {
-    BigAssNumber temp = *this % b;
+BigNumber &BigNumber::operator%=(const BigNumber &b) {
+    BigNumber temp = *this % b;
     setFrom(temp);
     return *this;
 }
 
-BigAssNumber &BigAssNumber::operator%=(sll number) {
-    BigAssNumber temp = *this % number;
+BigNumber &BigNumber::operator%=(sll number) {
+    BigNumber temp = *this % number;
     setFrom(temp);
     return *this;
 }

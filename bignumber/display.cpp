@@ -2,9 +2,9 @@
 // Created by Jari on 14/01/2022.
 //
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
-ostream &operator<<(ostream &os, const BigAssNumber &number) {
+ostream &operator<<(ostream &os, const BigNumber &number) {
 
     switch (number.sign) {
         case positive:
@@ -21,7 +21,7 @@ ostream &operator<<(ostream &os, const BigAssNumber &number) {
     return os;
 }
 
-BigAssNumber::operator std::string() const {
+BigNumber::operator std::string() const {
     switch (sign) {
         case positive:
             return to_string(value);

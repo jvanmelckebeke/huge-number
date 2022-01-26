@@ -3,26 +3,26 @@
 //
 
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
-BigAssNumber BigAssNumber::operator*(sll number) const {
-    return *this * BigAssNumber(number);
+BigNumber BigNumber::operator*(sll number) const {
+    return *this * BigNumber(number);
 }
 
-BigAssNumber BigAssNumber::operator*(const BigAssNumber &other) const {
+BigNumber BigNumber::operator*(const BigNumber &other) const {
     Sign resultSign = (getSign() == other.getSign()) ? positive : negative;
 
 
-    BigAssNumber result = BigAssNumber();
+    BigNumber result = BigNumber();
 
     int ranga = 0;
 
-    BigAssNumber a = copy();
+    BigNumber a = copy();
 
     while (true) {
 
 
-        BigAssNumber b = other.copy();
+        BigNumber b = other.copy();
         int rangb = 0;
 
         result.addToRang(ranga + rangb, a.value * b.value);
@@ -47,13 +47,13 @@ BigAssNumber BigAssNumber::operator*(const BigAssNumber &other) const {
 }
 
 
-BigAssNumber &BigAssNumber::operator*=(sll number) {
-    *this *= BigAssNumber(number);
+BigNumber &BigNumber::operator*=(sll number) {
+    *this *= BigNumber(number);
 
     return *this;
 }
 
-BigAssNumber &BigAssNumber::operator*=(const BigAssNumber &b) {
+BigNumber &BigNumber::operator*=(const BigNumber &b) {
     *this = *this * b;
     return *this;
 }
