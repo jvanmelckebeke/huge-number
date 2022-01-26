@@ -6,11 +6,11 @@
 #define RANDOM_PRIMES_TESTHELPER_H
 
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
 void
-showTest(const string &operation, sll number1, sll number2, const BigAssNumber &bignumber1, const BigAssNumber &bignumber2, sll expected,
-         const BigAssNumber &actual);
+showTest(const string &operation, sll number1, sll number2, const BigNumber &bignumber1, const BigNumber &bignumber2, sll expected,
+         const BigNumber &actual);
 
 void doTest(sll num1, sll num2, bool showExpanded = false);
 

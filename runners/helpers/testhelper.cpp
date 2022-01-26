@@ -9,7 +9,7 @@
 
 
 #include "testhelper.h"
-#include "bigassnumber.h"
+#include "bignumber.h"
 #include "Timer.h"
 
 #define MODULUS 1000
@@ -20,10 +20,10 @@ using namespace std::chrono;
 Timer timer = Timer();
 
 sll number1, number2;
-BigAssNumber bignumber1, bignumber2;
+BigNumber bignumber1, bignumber2;
 
 void showTest(const string &operation, TimeDuration duration,
-              sll expected, const BigAssNumber &actual) {
+              sll expected, const BigNumber &actual) {
 
     cout << "[[ testing " << operation << " ]]" << endl;
 
@@ -51,9 +51,9 @@ void doTest(sll num1, sll num2, bool showExpanded) {
     number1 = num1;
     number2 = num2;
 
-    bignumber1 = BigAssNumber(num1);
-    bignumber2 = BigAssNumber(num2);
-    BigAssNumber modulus = BigAssNumber(MODULUS);
+    bignumber1 = BigNumber(num1);
+    bignumber2 = BigNumber(num2);
+    BigNumber modulus = BigNumber(MODULUS);
 
 
     cout << "=== BEGIN TEST ===" << endl;
@@ -69,25 +69,25 @@ void doTest(sll num1, sll num2, bool showExpanded) {
     cout << "--- basics ---" << endl;*/
 
     timer.startTimer();
-    BigAssNumber actualSum = bignumber1 + bignumber2;
+    BigNumber actualSum = bignumber1 + bignumber2;
     TimeDuration durationSum = timer.lapTimer();
 
-    BigAssNumber actualDiff = bignumber1 - bignumber2;
+    BigNumber actualDiff = bignumber1 - bignumber2;
     TimeDuration durationDiff = timer.lapTimer();
 
-    BigAssNumber actualProduct = bignumber1 * bignumber2;
+    BigNumber actualProduct = bignumber1 * bignumber2;
     TimeDuration durationProduct = timer.lapTimer();
 
-    BigAssNumber actualDivision = bignumber1 / bignumber2;
+    BigNumber actualDivision = bignumber1 / bignumber2;
     TimeDuration durationDivision = timer.lapTimer();
 
-    BigAssNumber actualRemainder = bignumber1 % bignumber2;
+    BigNumber actualRemainder = bignumber1 % bignumber2;
     TimeDuration durationRemainder = timer.lapTimer();
 
-/*    BigAssNumber actualPower = pow(bignumber1, bignumber2);
+/*    BigNumber actualPower = pow(bignumber1, bignumber2);
     TimeDuration durationPower = timer.lapTimer();*/
 
-    BigAssNumber actualPowMod = powMod(bignumber1, bignumber2, modulus);
+    BigNumber actualPowMod = powMod(bignumber1, bignumber2, modulus);
     TimeDuration durationPowMod = timer.lapTimer();
 
     if (showExpanded) {

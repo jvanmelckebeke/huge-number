@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(EXTRA_TOOLS runners/helpers/testhelper.cpp runners/helpers/testhelper.h)
 
-include_directories(bigassnumber)
-add_subdirectory(bigassnumber)
+include_directories(bignumber)
+add_subdirectory(bignumber)
 
 include_directories(tools)
 add_subdirectory(tools)

@@ -1,15 +1,15 @@
 //
 // Created by Jari on 14/01/2022.
 //
-#include "bigassnumber.h"
+#include "bignumber.h"
 
 #pragma region equality
 
-bool BigAssNumber::operator==(sll number) const {
-    return *this == BigAssNumber(number);
+bool BigNumber::operator==(sll number) const {
+    return *this == BigNumber(number);
 }
 
-bool BigAssNumber::operator==(const BigAssNumber &rhs) const {
+bool BigNumber::operator==(const BigNumber &rhs) const {
 
     if (sign && rhs.sign) {
         return sign == rhs.sign && value == rhs.value;
@@ -26,11 +26,11 @@ bool BigAssNumber::operator==(const BigAssNumber &rhs) const {
     return false;
 }
 
-bool BigAssNumber::operator!=(sll number) const {
-    return *this != BigAssNumber(number);
+bool BigNumber::operator!=(sll number) const {
+    return *this != BigNumber(number);
 }
 
-bool BigAssNumber::operator!=(const BigAssNumber &rhs) const {
+bool BigNumber::operator!=(const BigNumber &rhs) const {
     return sign != rhs.sign || value != rhs.value || !(*this == rhs);
 }
 
@@ -38,7 +38,7 @@ bool BigAssNumber::operator!=(const BigAssNumber &rhs) const {
 
 #pragma region compare numbers
 
-bool BigAssNumber::operator<(sll number) const {
+bool BigNumber::operator<(sll number) const {
     if (sign) {
         return value * sign < number;
     }
@@ -53,19 +53,19 @@ bool BigAssNumber::operator<(sll number) const {
         return fullSign == negative;
     }
 
-    return *this < BigAssNumber(number);
+    return *this < BigNumber(number);
 }
 
-bool BigAssNumber::operator>(sll number) const {
-    return BigAssNumber(number) < *this;
+bool BigNumber::operator>(sll number) const {
+    return BigNumber(number) < *this;
 }
 
-bool BigAssNumber::operator<=(sll number) const {
-    return *this <= BigAssNumber(number);
+bool BigNumber::operator<=(sll number) const {
+    return *this <= BigNumber(number);
 }
 
-bool BigAssNumber::operator>=(sll number) const {
-    return BigAssNumber(number) <= *this;
+bool BigNumber::operator>=(sll number) const {
+    return BigNumber(number) <= *this;
 }
 
 #pragma endregion
@@ -73,7 +73,7 @@ bool BigAssNumber::operator>=(sll number) const {
 
 #pragma region compare bigassnumber
 
-bool BigAssNumber::operator<(const BigAssNumber &rhs) const {
+bool BigNumber::operator<(const BigNumber &rhs) const {
     // recursively compare signs
     switch (sign) {
         case positive:
@@ -108,15 +108,15 @@ bool BigAssNumber::operator<(const BigAssNumber &rhs) const {
     }
 }
 
-bool BigAssNumber::operator>(const BigAssNumber &rhs) const {
+bool BigNumber::operator>(const BigNumber &rhs) const {
     return rhs < *this;
 }
 
-bool BigAssNumber::operator<=(const BigAssNumber &rhs) const {
+bool BigNumber::operator<=(const BigNumber &rhs) const {
     return !(rhs < *this);
 }
 
-bool BigAssNumber::operator>=(const BigAssNumber &rhs) const {
+bool BigNumber::operator>=(const BigNumber &rhs) const {
     return !(*this < rhs);
 }
 

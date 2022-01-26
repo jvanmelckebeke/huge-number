@@ -2,34 +2,34 @@
 // Created by Jari on 14/01/2022.
 //
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
-int BigAssNumber::getUnits(int current) const {
+int BigNumber::getUnits(int current) const {
     if (sign) {
         return current;
     }
     return next->getUnits(current + 1);
 }
 
-BigAssNumber &BigAssNumber::addRang(unit amount) {
+BigNumber &BigNumber::addRang(unit amount) {
     if (next) {
         *next += amount;
     } else {
-        next = new BigAssNumber(amount );
+        next = new BigNumber(amount );
         sign = none;
     }
 
     return *this;
 }
 
-BigAssNumber &BigAssNumber::addToRang(int rang, sll amount) {
+BigNumber &BigNumber::addToRang(int rang, sll amount) {
     if (rang == 0) {
         *this += amount;
         return *this;
     }
 
     if (sign) {
-        next = new BigAssNumber();
+        next = new BigNumber();
         next->sign = sign;
         sign = none;
     }
@@ -39,7 +39,7 @@ BigAssNumber &BigAssNumber::addToRang(int rang, sll amount) {
 
 }
 
-BigAssNumber &BigAssNumber::removeRang(unit amount) {
+BigNumber &BigNumber::removeRang(unit amount) {
     if (next) {
         if (next->value >= amount) {
             next->value -= amount;
@@ -53,7 +53,7 @@ BigAssNumber &BigAssNumber::removeRang(unit amount) {
             next = nullptr;
         }
     } else {
-        next = new BigAssNumber(amount);
+        next = new BigNumber(amount);
         next->sign = sign;
         *next = next->negate();
     }

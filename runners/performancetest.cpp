@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "bigassnumber.h"
+#include "bignumber.h"
 #include "Timer.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ void write_file(ofstream &outfile, const string &operation, int number1, int num
 }
 
 int main() {
-    BigAssNumber modulus = BigAssNumber(1e6);
+    BigNumber modulus = BigNumber(1e6);
     Timer t = Timer();
 
     long long minute = time(nullptr) % 3600 / 60;
@@ -31,8 +31,8 @@ int main() {
     for (int number1 = 1; number1 < 61; number1 += 1) {
         cout << number1 << endl;
         for (int number2 = 1; number2 < 61; number2 += 1) {
-            BigAssNumber a = BigAssNumber(number1);
-            BigAssNumber b = BigAssNumber(number2);
+            BigNumber a = BigNumber(number1);
+            BigNumber b = BigNumber(number2);
 
             t.startTimer();
             a + b;

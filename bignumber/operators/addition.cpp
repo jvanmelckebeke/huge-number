@@ -2,21 +2,21 @@
 // Created by Jari on 17/01/2022.
 //
 
-#include "bigassnumber.h"
+#include "bignumber.h"
 
-BigAssNumber BigAssNumber::operator+(const BigAssNumber &b) const {
-    BigAssNumber cpy = copy();
+BigNumber BigNumber::operator+(const BigNumber &b) const {
+    BigNumber cpy = copy();
     cpy += b;
     return cpy;
 }
 
-BigAssNumber BigAssNumber::operator+(sll number) const {
-    BigAssNumber cpy = copy();
+BigNumber BigNumber::operator+(sll number) const {
+    BigNumber cpy = copy();
     cpy += number;
     return cpy;
 }
 
-BigAssNumber &BigAssNumber::operator+=(sll number) {
+BigNumber &BigNumber::operator+=(sll number) {
     if (number >= 0) {
         if (number < MAX_UNIT - value) {
             value += number;
@@ -29,11 +29,11 @@ BigAssNumber &BigAssNumber::operator+=(sll number) {
         }
     }
 
-    *this += BigAssNumber(number);
+    *this += BigNumber(number);
     return *this;
 }
 
-BigAssNumber &BigAssNumber::operator+=(const BigAssNumber &b) {
+BigNumber &BigNumber::operator+=(const BigNumber &b) {
     if (getSign() != b.getSign()) {
         *this -= b.negate();
         return *this;
@@ -53,7 +53,7 @@ BigAssNumber &BigAssNumber::operator+=(const BigAssNumber &b) {
         if (next) {
             *next += *b.next;
         } else {
-            next = new BigAssNumber(*b.next);
+            next = new BigNumber(*b.next);
             sign = none;
         }
     }
