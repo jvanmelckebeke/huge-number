@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "bignumber.h"
+#include "LinkedBigNumber.h"
 #include "Timer.h"
 
 using namespace std;

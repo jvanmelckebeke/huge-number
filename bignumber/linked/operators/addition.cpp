@@ -2,21 +2,21 @@
 // Created by Jari on 17/01/2022.
 //
 
-#include "bignumber.h"
+#include "../linkedbignumber.h"
 
-BigNumber BigNumber::operator+(const BigNumber &b) const {
-    BigNumber cpy = copy();
+LinkedBigNumber LinkedBigNumber::operator+(const LinkedBigNumber &b) const {
+    LinkedBigNumber cpy = copy();
     cpy += b;
     return cpy;
 }
 
-BigNumber BigNumber::operator+(sll number) const {
-    BigNumber cpy = copy();
+LinkedBigNumber LinkedBigNumber::operator+(sll number) const {
+    LinkedBigNumber cpy = copy();
     cpy += number;
     return cpy;
 }
 
-BigNumber &BigNumber::operator+=(sll number) {
+LinkedBigNumber &LinkedBigNumber::operator+=(sll number) {
     if (number >= 0) {
         if (number < MAX_UNIT - value) {
             value += number;
@@ -29,11 +29,11 @@ BigNumber &BigNumber::operator+=(sll number) {
         }
     }
 
-    *this += BigNumber(number);
+    *this += LinkedBigNumber(number);
     return *this;
 }
 
-BigNumber &BigNumber::operator+=(const BigNumber &b) {
+LinkedBigNumber &LinkedBigNumber::operator+=(const LinkedBigNumber &b) {
     if (getSign() != b.getSign()) {
         *this -= b.negate();
         return *this;
@@ -53,7 +53,7 @@ BigNumber &BigNumber::operator+=(const BigNumber &b) {
         if (next) {
             *next += *b.next;
         } else {
-            next = new BigNumber(*b.next);
+            next = new LinkedBigNumber(*b.next);
             sign = none;
         }
     }

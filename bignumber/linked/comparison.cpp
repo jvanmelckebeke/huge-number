@@ -1,15 +1,15 @@
 //
 // Created by Jari on 14/01/2022.
 //
-#include "bignumber.h"
+#include "linkedbignumber.h"
 
 #pragma region equality
 
-bool BigNumber::operator==(sll number) const {
-    return *this == BigNumber(number);
+bool LinkedBigNumber::operator==(sll number) const {
+    return *this == LinkedBigNumber(number);
 }
 
-bool BigNumber::operator==(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator==(const LinkedBigNumber &rhs) const {
 
     if (sign && rhs.sign) {
         return sign == rhs.sign && value == rhs.value;
@@ -26,11 +26,11 @@ bool BigNumber::operator==(const BigNumber &rhs) const {
     return false;
 }
 
-bool BigNumber::operator!=(sll number) const {
-    return *this != BigNumber(number);
+bool LinkedBigNumber::operator!=(sll number) const {
+    return *this != LinkedBigNumber(number);
 }
 
-bool BigNumber::operator!=(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator!=(const LinkedBigNumber &rhs) const {
     return sign != rhs.sign || value != rhs.value || !(*this == rhs);
 }
 
@@ -38,7 +38,7 @@ bool BigNumber::operator!=(const BigNumber &rhs) const {
 
 #pragma region compare numbers
 
-bool BigNumber::operator<(sll number) const {
+bool LinkedBigNumber::operator<(sll number) const {
     if (sign) {
         return value * sign < number;
     }
@@ -53,27 +53,27 @@ bool BigNumber::operator<(sll number) const {
         return fullSign == negative;
     }
 
-    return *this < BigNumber(number);
+    return *this < LinkedBigNumber(number);
 }
 
-bool BigNumber::operator>(sll number) const {
-    return BigNumber(number) < *this;
+bool LinkedBigNumber::operator>(sll number) const {
+    return LinkedBigNumber(number) < *this;
 }
 
-bool BigNumber::operator<=(sll number) const {
-    return *this <= BigNumber(number);
+bool LinkedBigNumber::operator<=(sll number) const {
+    return *this <= LinkedBigNumber(number);
 }
 
-bool BigNumber::operator>=(sll number) const {
-    return BigNumber(number) <= *this;
+bool LinkedBigNumber::operator>=(sll number) const {
+    return LinkedBigNumber(number) <= *this;
 }
 
 #pragma endregion
 
 
-#pragma region compare bigassnumber
+#pragma region compare BigNumbers
 
-bool BigNumber::operator<(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator<(const LinkedBigNumber &rhs) const {
     // recursively compare signs
     switch (sign) {
         case positive:
@@ -105,18 +105,20 @@ bool BigNumber::operator<(const BigNumber &rhs) const {
                     }
                     return *next < *rhs.next;
             }
+        default:
+            return true;
     }
 }
 
-bool BigNumber::operator>(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator>(const LinkedBigNumber &rhs) const {
     return rhs < *this;
 }
 
-bool BigNumber::operator<=(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator<=(const LinkedBigNumber &rhs) const {
     return !(rhs < *this);
 }
 
-bool BigNumber::operator>=(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator>=(const LinkedBigNumber &rhs) const {
     return !(*this < rhs);
 }
 

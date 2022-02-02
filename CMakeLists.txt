@@ -18,7 +18,7 @@ add_executable(primecheck runners/primetest.cpp ${EXTRA_TOOLS})
 add_executable(test_performance runners/performancetest.cpp)
 
 
-target_link_libraries(test_manual bignumber timer)
-target_link_libraries(test_automatic bignumber timer)
-target_link_libraries(primecheck bignumber timer)
-target_link_libraries(test_performance bignumber timer)
+target_link_libraries(test_manual linkedbignumber timer)
+target_link_libraries(test_automatic linkedbignumber timer)
+target_link_libraries(primecheck linkedbignumber timer)
+target_link_libraries(test_performance linkedbignumber timer)

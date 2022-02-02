@@ -2,19 +2,19 @@
 // Created by Jari on 14/01/2022.
 //
 
-#include "bignumber.h"
+#include "linkedbignumber.h"
 
-BigNumber::BigNumber() {
+LinkedBigNumber::LinkedBigNumber() {
     value = 0;
     sign = positive;
     next = nullptr;
 }
 
-BigNumber::BigNumber(sll number) {
+LinkedBigNumber::LinkedBigNumber(sll number) {
     if (number >= MAX_UNIT) {
         sign = none;
         value = number % MAX_UNIT;
-        next = new BigNumber(number / MAX_UNIT);
+        next = new LinkedBigNumber(number / MAX_UNIT);
     } else {
         sign = GETSIGN(number);
         value = ABS(number);
@@ -22,7 +22,7 @@ BigNumber::BigNumber(sll number) {
     }
 }
 
-BigNumber::BigNumber(const string &numberString) {
+LinkedBigNumber::LinkedBigNumber(const string &numberString) {
     if (numberString.empty()) {
         value = 0;
         sign = positive;
@@ -41,7 +41,7 @@ BigNumber::BigNumber(const string &numberString) {
 
         if (isdigit(before)) {
             sign = none;
-            next = new BigNumber(numberString.substr(0, lastIdx));
+            next = new LinkedBigNumber(numberString.substr(0, lastIdx));
         } else if (before == '-') {
             sign = negative;
         }
@@ -52,17 +52,17 @@ BigNumber::BigNumber(const string &numberString) {
 
 }
 
-// copy constructor
-BigNumber::BigNumber(const BigNumber &copy) : value(copy.value), sign(copy.sign) {
-    if (copy.next)
-        next = new BigNumber(*copy.next);
+// from constructor
+LinkedBigNumber::LinkedBigNumber(const LinkedBigNumber &from) : value(from.value), sign(from.sign) {
+    if (from.next)
+        next = new LinkedBigNumber(*from.next);
     else
         next = nullptr;
 }
 
 
 // destructor
-BigNumber::~BigNumber() {
+LinkedBigNumber::~LinkedBigNumber() {
     value = 0;
     sign = none;
     next = nullptr;

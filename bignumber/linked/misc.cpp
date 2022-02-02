@@ -2,9 +2,7 @@
 // Created by Jari on 14/01/2022.
 //
 
-
-#include "bignumber.h"
-
+#include "linkedbignumber.h"
 
 constexpr Sign negateSign(Sign sign) {
     switch (sign) {
@@ -14,19 +12,21 @@ constexpr Sign negateSign(Sign sign) {
             return positive;
         case none:
             return none;
+        default:
+            return none;
     }
 }
 
-void BigNumber::setFrom(const BigNumber &other) {
+void LinkedBigNumber::setFrom(const LinkedBigNumber &other) {
     value = other.value;
     sign = other.sign;
 
     if (other.next) {
-        next = new BigNumber(other.next->copy());
+        next = new LinkedBigNumber(other.next->copy());
     } else { next = nullptr; }
 }
 
-void BigNumber::setSign(Sign nSign) {
+void LinkedBigNumber::setSign(Sign nSign) {
     if (next) {
         next->setSign(nSign);
     } else {
@@ -34,42 +34,42 @@ void BigNumber::setSign(Sign nSign) {
     }
 }
 
-Sign BigNumber::getSign() const {
+Sign LinkedBigNumber::getSign() const {
     if (sign) { // none is defined as 0 in enum Sign
         return sign;
     }
     return next->getSign();
 }
 
-BigNumber BigNumber::negate() const {
-    BigNumber c = copy();
+LinkedBigNumber LinkedBigNumber::negate() const {
+    LinkedBigNumber c = copy();
 
     if (sign) {
         c.sign = negateSign(c.sign);
     } else {
-        c.next = new BigNumber(c.next->negate());
+        c.next = new LinkedBigNumber(c.next->negate());
     }
 
     return c;
 }
 
-BigNumber BigNumber::abs() const {
-    BigNumber cpy = copy();
+LinkedBigNumber LinkedBigNumber::abs() const {
+    LinkedBigNumber cpy = copy();
     cpy.setSign(positive);
     return cpy;
 }
 
-BigNumber BigNumber::copy() const {
-    BigNumber cpy = BigNumber(*this);
+LinkedBigNumber LinkedBigNumber::copy() const {
+    LinkedBigNumber cpy = LinkedBigNumber(*this);
     return cpy;
 }
 
-sll BigNumber::numValue() const {
+sll LinkedBigNumber::numValue() const {
     sll result = value;
 
     sll rang = MAX_UNIT;
 
-    BigNumber c = copy();
+    LinkedBigNumber c = copy();
 
     while (c.next) {
         c = *c.next;
@@ -83,3 +83,4 @@ sll BigNumber::numValue() const {
 
     return result;
 }
+

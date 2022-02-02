@@ -1,5 +1,5 @@
 #include <iostream>
-#include "bignumber.h"
+#include "LinkedBigNumber.h"
 
 typedef unsigned long long int ull;
 

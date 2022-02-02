@@ -2,7 +2,7 @@
 // Created by Jari on 30/12/2021.
 //
 
-#include "bignumber.h"
+#include "LinkedBigNumber.h"
 #include "helpers/testhelper.h"
 
 int main() {

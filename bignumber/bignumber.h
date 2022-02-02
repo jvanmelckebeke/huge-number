@@ -1,5 +1,5 @@
 //
-// Created by Jari on 07/01/2022.
+// Created by jarivm on 1/02/22.
 //
 
 #ifndef RANDOM_PRIMES_BIGNUMBER_H
@@ -7,153 +7,140 @@
 
 #include <ostream>
 
-#define GETSIGN(X) (((X) >= 0) ? positive : negative)
-#define ABS(X) (X)>= 0 ? (X) : (-(X))
-
-#define MAX_UNIT 10
-
-
 using namespace std;
 
+
 typedef long long int sll;
-typedef unsigned char unit;
+
+
+template<typename T>
+class BigNumber;
+
+template<typename T>
+class DivisionResult {
+public:
+    T result;
+    T remainder;
+};
 
 enum Sign {
     none = 0, positive = 1, negative = -1
 };
 
-class BigNumber;
-
-typedef struct {
-    BigNumber *result;
-    BigNumber *remainder;
-} DivisionResult;
+template<typename T>
+BigNumber<T> pow(const BigNumber<T> &base, const BigNumber<T> &exponent);
 
 
-BigNumber pow(const BigNumber &base, const BigNumber &exponent);
-
-BigNumber powMod(const BigNumber &a, const BigNumber &b, const BigNumber &modulo);
-
+template<typename T>
 class BigNumber {
-    explicit operator std::string() const;
+public:
+    friend T powMod(const T &base, const T &exponent, const T &modulo);
 
-    friend ostream &operator<<(ostream &os, const BigNumber &number);
+    friend ostream &operator<<(ostream &os, const BigNumber &number) {
+        os << number.to_string();
+        return os;
+    }
 
-private:
-    unit value;
-    Sign sign;
-    BigNumber *next;
+    explicit operator std::string() {
+        return to_string();
+    }
 
-    BigNumber &addRang(unit amount);
+protected:
+    virtual void setSign(Sign nSign) = 0;
 
-    BigNumber &addToRang(int rang, sll amount);
-
-    BigNumber &removeRang(unit amount);
-
-    [[nodiscard]] DivisionResult divide(const BigNumber &b) const;
-
+    [[nodiscard]] virtual Sign getSign() const = 0;
 
 public:
 
-    explicit BigNumber(const string &numberString);
 
-    explicit BigNumber(sll number);
+    virtual T operator+(const T &b) const = 0;
 
-    BigNumber();
+    virtual T operator+(sll number) const = 0;
 
-    ~BigNumber();
+    virtual T &operator+=(const T &b) = 0;
 
-    BigNumber(const BigNumber &copy) ;
-
-
-    BigNumber operator+(const BigNumber &b) const;
-
-    BigNumber operator+(sll number) const;
+    virtual T &operator+=(sll number) = 0;
 
 
-    BigNumber &operator+=(const BigNumber &b);
+    virtual T operator-(const T &b) const = 0;
 
-    BigNumber &operator+=(sll number);
+    virtual T operator-(sll number) const = 0;
 
+    virtual T &operator-=(const T &b) = 0;
 
-    BigNumber operator-(const BigNumber &b) const;
-
-    BigNumber operator-(sll num) const;
-
-
-    BigNumber &operator-=(const BigNumber &b);
-
-    BigNumber &operator-=(sll number);
-
-    BigNumber operator*(sll number) const;
-
-    BigNumber operator*(const BigNumber &other) const;
+    virtual T &operator-=(sll number) = 0;
 
 
-    BigNumber &operator*=(const BigNumber &b);
+    virtual T operator*(const T &b) const = 0;
 
-    BigNumber &operator*=(sll number);
+    virtual T operator*(sll number) const = 0;
+
+    virtual T &operator*=(const T &b) = 0;
+
+    virtual T &operator*=(sll number) = 0;
 
 
-    BigNumber operator/(const BigNumber &b) const;
+    virtual T operator/(const T &b) const = 0;
 
-    BigNumber operator/(sll number) const;
+    virtual T operator/(sll number) const = 0;
 
-    BigNumber &operator/=(const BigNumber &b);
+    virtual T &operator/=(const T &b) = 0;
 
-    BigNumber &operator/=(sll number);
+    virtual T &operator/=(sll number) = 0;
 
-    BigNumber operator%(const BigNumber &b) const;
 
-    BigNumber operator%(sll number) const;
+    virtual T operator%(const T &b) const = 0;
 
-    BigNumber &operator%=(const BigNumber &b);
+    virtual T operator%(sll number) const = 0;
 
-    BigNumber &operator%=(sll number);
+    virtual T &operator%=(const T &b) = 0;
 
-    //misc
-    void setFrom(const BigNumber &other);
-
-    BigNumber negate() const;
-
-    BigNumber copy() const;
-
-    sll numValue() const;
-
-    BigNumber abs() const;
-
-    void setSign(Sign nSign);
-
-    Sign getSign() const;
-
-    int getUnits(int current = 0) const;
+    virtual T &operator%=(sll number) = 0;
 
     //equality
-    bool operator==(sll number) const;
+    virtual bool operator==(sll number) const = 0;
 
-    bool operator==(const BigNumber &rhs) const;
+    virtual bool operator==(const T &rhs) const = 0;
 
-    bool operator!=(sll number) const;
+    virtual bool operator!=(sll number) const = 0;
 
-    bool operator!=(const BigNumber &rhs) const;
+    virtual bool operator!=(const T &rhs) const = 0;
 
 
     //compare
-    bool operator<(sll number) const;
 
-    bool operator<(const BigNumber &rhs) const;
+    virtual bool operator<(sll number) const = 0;
 
-    bool operator>(const BigNumber &rhs) const;
+    virtual bool operator<(const T &rhs) const = 0;
 
-    bool operator>(sll number) const;
+    virtual bool operator>(const T &rhs) const = 0;
 
-    bool operator<=(const BigNumber &rhs) const;
+    virtual bool operator>(sll number) const = 0;
 
-    bool operator<=(sll number) const;
 
-    bool operator>=(const BigNumber &rhs) const;
+    virtual bool operator<=(const T &rhs) const = 0;
 
-    bool operator>=(sll number) const;
+    virtual bool operator<=(sll number) const = 0;
+
+    virtual bool operator>=(const T &rhs) const = 0;
+
+    virtual bool operator>=(sll number) const = 0;
+
+
+    //misc
+    virtual T copy() const = 0;
+
+    virtual T negate() const = 0;
+
+    virtual T abs() const = 0;
+
+    virtual void setFrom(const T &other) = 0;
+
+    [[nodiscard]] virtual sll numValue() const = 0;
+
+    [[nodiscard]] virtual string to_string() const = 0;
+
+
 };
 
 
