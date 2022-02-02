@@ -143,5 +143,24 @@ public:
 
 };
 
+template<typename T>
+T powMod(const T &base, const T &exponent, const T &modulo) {
+    T result = T(1);
+
+    T b = base % modulo;
+    T exp = exponent.copy();
+
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result = (result * b) % modulo;
+        }
+
+        b = (b * b) % modulo;
+        exp /= 2;
+    }
+
+    return result;
+}
+
 
 #endif //RANDOM_PRIMES_BIGNUMBER_H

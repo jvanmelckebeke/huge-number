@@ -24,22 +24,3 @@ T pow(const BigNumber<T> &base, const BigNumber<T> &exponent) {
 
     return result;
 }
-
-template<typename T>
-T powMod(const T &base, const T &exponent, const T &modulo) {
-    BigNumber result = BigNumber<T>(1);
-
-    BigNumber b = base % modulo;
-    BigNumber exp = exponent.copy();
-
-    while (exp > 0) {
-        if (exp % 2 == 1) {
-            result = (result * b) % modulo;
-        }
-
-        b = (b * b) % modulo;
-        exp /= 2;
-    }
-
-    return result;
-}

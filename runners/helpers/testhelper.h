@@ -84,7 +84,7 @@ public:
 /*    T actualPower = pow(bignumber1, bignumber2);
     TimeDuration durationPower = timer.lapTimer();*/
 
-//        T actualPowMod =  powMod(bignumber1, bignumber2, modulus);
+        T actualPowMod =  powMod<T>(bignumber1, bignumber2, modulus);
         TimeDuration durationPowMod = timer.lapTimer();
 
         if (showExpanded) {
@@ -94,7 +94,7 @@ public:
             showTest("/", durationDivision, num1 / num2, actualDivision);
             showTest("%", durationRemainder, num1 % num2, actualRemainder);
 //        showTest("^", durationPower, pow(num1, num2), actualPower);
-//            showTest("^%", durationPowMod, ((sll) pow(num1, num2)) % MODULUS, actualPowMod);
+            showTest("^%", durationPowMod, ((sll) pow(num1, num2)) % MODULUS, actualPowMod);
         }
         cout << "== TIME DURATION ==" << endl;
 
@@ -105,7 +105,7 @@ public:
         showCompactTest("/", durationDivision, num1 / num2 == actualDivision.numValue());
         showCompactTest("%", durationRemainder, num1 % num2 == actualRemainder.numValue());
 //    showCompactTest("^", durationPower, pow(num1, num2) == actualPower.numValue());
-//        showCompactTest("^%", durationPowMod, ((sll) pow(num1, num2)) == actualPowMod.numValue());
+        showCompactTest("^%", durationPowMod, ((sll) pow(num1, num2)) == actualPowMod.numValue());
 
         cout << "=== END TEST ===" << endl << endl;
     }
