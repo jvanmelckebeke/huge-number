@@ -31,7 +31,8 @@ template<typename T>
 class BigNumber {
 public:
     friend T powMod(const T &base, const T &exponent, const T &modulo);
-    friend T pow(const T &base, const T &exponent);
+
+    friend T pow(const BigNumber<T> &base, const BigNumber<T> &exponent);
 
 
     friend ostream &operator<<(ostream &os, const BigNumber &number) {
@@ -160,8 +161,8 @@ T powMod(const T &base, const T &exponent, const T &modulo) {
     return result;
 }
 
-template<typename T>
-T pow(const T &base, const T &exponent) {
+template<class T>
+T pow(const BigNumber<T> &base, const BigNumber<T> &exponent) {
     T result =T(1);
 
     T b = base.copy();

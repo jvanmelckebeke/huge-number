@@ -1,7 +1,7 @@
 project(bignumber)
 
 set(BASE_HEADER_FILES bignumber.h)
-set(BASE_SOURCE_FILES base/extra.cpp)
+#set(BASE_SOURCE_FILES base/extra.cpp)
 
 #linked implementation
 set(LINKED_HEADER_FILES ${BASE_HEADER_FILES} linked/linkedbignumber.h)

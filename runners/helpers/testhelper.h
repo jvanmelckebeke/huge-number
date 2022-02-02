@@ -6,6 +6,7 @@
 #define RANDOM_PRIMES_TESTHELPER_H
 
 #include <cmath>
+#include <iostream>
 #include "Timer.h"
 #include "bignumber.h"
 
@@ -42,7 +43,7 @@ private:
     }
 
 public:
-    Test(sll num1, sll num2, bool showExpanded) {
+    Test(sll num1, sll num2, bool doPow, bool showExpanded) {
         timer = Timer();
         number1 = num1;
         number2 = num2;
@@ -81,10 +82,15 @@ public:
         T actualRemainder = bignumber1 % bignumber2;
         TimeDuration durationRemainder = timer.lapTimer();
 
-/*    T actualPower = pow(bignumber1, bignumber2);
-    TimeDuration durationPower = timer.lapTimer();*/
+        T actualPower = T(0);
+        TimeDuration durationPower = timer.lapTimer();
 
-        T actualPowMod =  powMod<T>(bignumber1, bignumber2, modulus);
+        if (doPow) {
+            actualPower = pow<T>(bignumber1, bignumber2);
+            durationPower = timer.lapTimer();
+        }
+
+        T actualPowMod = powMod<T>(bignumber1, bignumber2, modulus);
         TimeDuration durationPowMod = timer.lapTimer();
 
         if (showExpanded) {
@@ -93,7 +99,10 @@ public:
             showTest("*", durationProduct, num1 * num2, actualProduct);
             showTest("/", durationDivision, num1 / num2, actualDivision);
             showTest("%", durationRemainder, num1 % num2, actualRemainder);
-//        showTest("^", durationPower, pow(num1, num2), actualPower);
+
+            if (doPow) {
+                showTest("^", durationPower, pow(num1, num2), actualPower);
+            }
             showTest("^%", durationPowMod, ((sll) pow(num1, num2)) % MODULUS, actualPowMod);
         }
         cout << "== TIME DURATION ==" << endl;
@@ -104,7 +113,8 @@ public:
         showCompactTest("*", durationProduct, num1 * num2 == actualProduct.numValue());
         showCompactTest("/", durationDivision, num1 / num2 == actualDivision.numValue());
         showCompactTest("%", durationRemainder, num1 % num2 == actualRemainder.numValue());
-//    showCompactTest("^", durationPower, pow(num1, num2) == actualPower.numValue());
+
+        if (doPow) { showCompactTest("^", durationPower, pow(num1, num2) == actualPower.numValue()); }
         showCompactTest("^%", durationPowMod, ((sll) pow(num1, num2)) == actualPowMod.numValue());
 
         cout << "=== END TEST ===" << endl << endl;

@@ -29,7 +29,7 @@ int main() {
     for (auto num1: ns) {
 
         for (auto num2: ns) {
-            Test<LinkedBigNumber>(num1, num2, true);
+            Test<BigNumberImpl>(num1, num2, false, false);
         }
     }
 }
