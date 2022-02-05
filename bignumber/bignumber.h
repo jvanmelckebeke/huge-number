@@ -38,9 +38,10 @@ constexpr Sign invertSign(Sign sign) {
     }
 }
 
-template<typename T>
+template<class T>
 class BigNumber {
 public:
+
     friend T powMod(const T &base, const T &exponent, const T &modulo);
 
     friend T pow(const T &base, const T &exponent);
@@ -60,93 +61,53 @@ public:
 
     virtual T operator+(const T &b) const = 0;
 
-    virtual T operator+(sll number) const = 0;
 
     virtual T &operator+=(const T &b) = 0;
-
-    virtual T &operator+=(sll number) = 0;
 
 
     virtual T operator-(const T &b) const = 0;
 
-    virtual T operator-(sll number) const = 0;
 
     virtual T &operator-=(const T &b) = 0;
-
-    virtual T &operator-=(sll number) = 0;
 
 
     virtual T operator*(const T &b) const = 0;
 
-    virtual T operator*(sll number) const = 0;
 
     virtual T &operator*=(const T &b) = 0;
-
-    virtual T &operator*=(sll number) = 0;
 
 
     virtual T operator/(const T &b) const = 0;
 
-    virtual T operator/(sll number) const = 0;
 
     virtual T &operator/=(const T &b) = 0;
-
-    virtual T &operator/=(sll number) = 0;
 
 
     virtual T operator%(const T &b) const = 0;
 
-    virtual T operator%(sll number) const = 0;
 
     virtual T &operator%=(const T &b) = 0;
 
-    virtual T &operator%=(sll number) = 0;
 
     //equality
     virtual bool operator==(const T &rhs) const = 0;
 
     virtual bool operator!=(const T &rhs) const = 0;
 
-    virtual bool operator==(sll number) const {
-        return *this == T(number);
-    }
-
-    virtual bool operator!=(sll number) const {
-        return *this != T(number);
-    };
-
 
     //compare
-
     virtual bool operator<(const T &rhs) const = 0;
-
-    virtual bool operator<(sll number) const {
-        return *this < T(number);
-    };
 
     virtual bool operator>(const T &rhs) const {
         return rhs < *this;
     }
 
-    virtual bool operator>(sll number) const {
-        return T(number) < *this;
-    };
-
-
     virtual bool operator<=(const T &rhs) const {
         return !(*this > rhs);
     };
 
-    virtual bool operator<=(sll number) const {
-        return !(*this > number);
-    };
-
     virtual bool operator>=(const T &rhs) const {
         return !(*this < rhs);
-    };
-
-    virtual bool operator>=(sll number) const {
-        return !(*this < number);
     };
 
 

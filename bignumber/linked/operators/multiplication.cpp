@@ -5,10 +5,6 @@
 
 #include "../linkedbignumber.h"
 
-LinkedBigNumber LinkedBigNumber::operator*(sll number) const {
-    return *this *LinkedBigNumber(number);
-}
-
 LinkedBigNumber LinkedBigNumber::operator*(const LinkedBigNumber &other) const {
     Sign resultSign = (getSign() == other.getSign()) ? positive : negative;
 
@@ -44,13 +40,6 @@ LinkedBigNumber LinkedBigNumber::operator*(const LinkedBigNumber &other) const {
             return result;
         }
     }
-}
-
-
-LinkedBigNumber &LinkedBigNumber::operator*=(sll number) {
-    *this *= LinkedBigNumber(number);
-
-    return *this;
 }
 
 LinkedBigNumber &LinkedBigNumber::operator*=(const LinkedBigNumber &b) {

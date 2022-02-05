@@ -4,21 +4,10 @@
 
 #include "../linkedbignumber.h"
 
-LinkedBigNumber LinkedBigNumber::operator-(sll num) const {
-    LinkedBigNumber cpy = copy();
-    cpy -= LinkedBigNumber(num);
-    return cpy;
-}
-
 LinkedBigNumber LinkedBigNumber::operator-(const LinkedBigNumber &b) const {
     LinkedBigNumber cpy = copy();
     cpy -= b;
     return cpy;
-}
-
-LinkedBigNumber &LinkedBigNumber::operator-=(sll number) {
-    *this -= LinkedBigNumber(number);
-    return *this;
 }
 
 LinkedBigNumber &LinkedBigNumber::operator-=(const LinkedBigNumber &b) {

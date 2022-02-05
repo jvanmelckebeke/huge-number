@@ -57,11 +57,8 @@ public:
 
     LinkedBigNumber operator+(const LinkedBigNumber &b) const override;
 
-    LinkedBigNumber operator+(sll number) const override;
-
     LinkedBigNumber &operator+=(const LinkedBigNumber &b) override;
 
-    LinkedBigNumber &operator+=(sll number) override;
 
 #pragma endregion
 
@@ -69,11 +66,8 @@ public:
 
     LinkedBigNumber operator-(const LinkedBigNumber &b) const override;
 
-    LinkedBigNumber operator-(sll number) const override;
-
     LinkedBigNumber &operator-=(const LinkedBigNumber &b) override;
 
-    LinkedBigNumber &operator-=(sll number) override;
 
 #pragma endregion
 
@@ -81,11 +75,9 @@ public:
 
     LinkedBigNumber operator*(const LinkedBigNumber &b) const override;
 
-    LinkedBigNumber operator*(sll number) const override;
 
     LinkedBigNumber &operator*=(const LinkedBigNumber &b) override;
 
-    LinkedBigNumber &operator*=(sll number) override;
 
 #pragma endregion
 
@@ -93,11 +85,8 @@ public:
 
     LinkedBigNumber operator/(const LinkedBigNumber &b) const override;
 
-    LinkedBigNumber operator/(sll number) const override;
 
     LinkedBigNumber &operator/=(const LinkedBigNumber &b) override;
-
-    LinkedBigNumber &operator/=(sll number) override;
 
 #pragma endregion
 
@@ -105,31 +94,19 @@ public:
 
     LinkedBigNumber operator%(const LinkedBigNumber &b) const override;
 
-    LinkedBigNumber operator%(sll number) const override;
 
     LinkedBigNumber &operator%=(const LinkedBigNumber &b) override;
 
-    LinkedBigNumber &operator%=(sll number) override;
 
 #pragma endregion
-
-#pragma region equality
-
 
 
     bool operator==(const LinkedBigNumber &rhs) const override;
 
     bool operator!=(const LinkedBigNumber &rhs) const override;
 
-#pragma endregion
-
-#pragma region comparison
-
     bool operator<(const LinkedBigNumber &rhs) const override;
 
-    bool operator<(sll number) const override;
-
-#pragma endregion
 
 #pragma region misc
 

@@ -30,24 +30,6 @@ bool LinkedBigNumber::operator!=(const LinkedBigNumber &rhs) const {
 
 #pragma region comparison
 
-bool LinkedBigNumber::operator<(sll number) const {
-    if (sign) {
-        return value * sign < number;
-    }
-
-    Sign fullSign = getSign();
-
-    if (fullSign != GETSIGN(number)) {
-        return fullSign < GETSIGN(number);
-    }
-
-    if (number == 0) {
-        return fullSign == negative;
-    }
-
-    return *this < LinkedBigNumber(number);
-}
-
 bool LinkedBigNumber::operator<(const LinkedBigNumber &rhs) const {
     // recursively compare signs
     switch (sign) {

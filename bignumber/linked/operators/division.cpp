@@ -80,14 +80,6 @@ LinkedBigNumber LinkedBigNumber::operator/(const LinkedBigNumber &b) const {
     return divide(b).result;
 }
 
-LinkedBigNumber LinkedBigNumber::operator/(sll number) const {
-    return *this / LinkedBigNumber(number);
-}
-
-LinkedBigNumber &LinkedBigNumber::operator/=(sll number) {
-    *this /= LinkedBigNumber(number);
-    return *this;
-}
 
 LinkedBigNumber &LinkedBigNumber::operator/=(const LinkedBigNumber &b) {
     LinkedBigNumber temp = *this / b;
@@ -103,20 +95,11 @@ LinkedBigNumber LinkedBigNumber::operator%(const LinkedBigNumber &b) const {
     return divide(b).remainder;
 }
 
-LinkedBigNumber LinkedBigNumber::operator%(sll number) const {
-    return *this % LinkedBigNumber(number);
-}
-
 LinkedBigNumber &LinkedBigNumber::operator%=(const LinkedBigNumber &b) {
     LinkedBigNumber temp = *this % b;
     setFrom(temp);
     return *this;
 }
 
-LinkedBigNumber &LinkedBigNumber::operator%=(sll number) {
-    LinkedBigNumber temp = *this % number;
-    setFrom(temp);
-    return *this;
-}
 
 #pragma endregion

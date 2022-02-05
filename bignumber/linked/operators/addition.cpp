@@ -10,29 +10,6 @@ LinkedBigNumber LinkedBigNumber::operator+(const LinkedBigNumber &b) const {
     return cpy;
 }
 
-LinkedBigNumber LinkedBigNumber::operator+(sll number) const {
-    LinkedBigNumber cpy = copy();
-    cpy += number;
-    return cpy;
-}
-
-LinkedBigNumber &LinkedBigNumber::operator+=(sll number) {
-    if (number >= 0) {
-        if (number < MAX_UNIT - value) {
-            value += number;
-            return *this;
-        }
-    } else {
-        if (ABS(number) < value) {
-            value += number;
-            return *this;
-        }
-    }
-
-    *this += LinkedBigNumber(number);
-    return *this;
-}
-
 LinkedBigNumber &LinkedBigNumber::operator+=(const LinkedBigNumber &b) {
     if (getSign() != b.getSign()) {
         *this -= b.negate();
