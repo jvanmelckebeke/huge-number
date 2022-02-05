@@ -34,7 +34,6 @@ private:
     [[nodiscard]] DivisionResult<LinkedBigNumber> divide(const LinkedBigNumber &b) const;
 
 
-
 public:
 
 
@@ -50,6 +49,9 @@ public:
 
 
     LinkedBigNumber(const LinkedBigNumber &from);
+
+    template<class T>
+    LinkedBigNumber(const BigNumber<T> &from);
 
 #pragma endregion
 
@@ -129,13 +131,9 @@ public:
 
 #pragma region comparison
 
-    bool operator<(sll number) const override;
-
     bool operator<(const LinkedBigNumber &rhs) const override;
 
-    bool operator>(const LinkedBigNumber &rhs) const override;
-
-    bool operator>(sll number) const override;
+    bool operator<(sll number) const override;
 
     bool operator<=(const LinkedBigNumber &rhs) const override;
 
@@ -148,6 +146,7 @@ public:
 #pragma endregion
 
 #pragma region misc
+
     void setFrom(const LinkedBigNumber &other) override;
 
     LinkedBigNumber copy() const override;
@@ -167,7 +166,6 @@ public:
     [[nodiscard]] Sign getSign() const override;
 
 #pragma endregion
-
 
 
 };

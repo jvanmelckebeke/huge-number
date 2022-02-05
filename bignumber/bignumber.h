@@ -45,7 +45,6 @@ public:
 
     friend T pow(const T &base, const T &exponent);
 
-
     friend ostream &operator<<(ostream &os, const BigNumber &number) {
         os << number.to_string();
         return os;
@@ -55,13 +54,9 @@ public:
         return to_string();
     }
 
-protected:
     virtual void setSign(Sign nSign) = 0;
 
     [[nodiscard]] virtual Sign getSign() const = 0;
-
-public:
-
 
     virtual T operator+(const T &b) const = 0;
 
@@ -119,13 +114,19 @@ public:
 
     //compare
 
-    virtual bool operator<(sll number) const = 0;
-
     virtual bool operator<(const T &rhs) const = 0;
 
-    virtual bool operator>(const T &rhs) const = 0;
+    virtual bool operator<(sll number) const {
+        return *this < T(number);
+    };
 
-    virtual bool operator>(sll number) const = 0;
+    virtual bool operator>(const T &rhs) const {
+        return rhs < *this;
+    }
+
+    virtual bool operator>(sll number) const {
+        return T(number) < *this;
+    };
 
 
     virtual bool operator<=(const T &rhs) const = 0;

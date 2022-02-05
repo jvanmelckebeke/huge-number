@@ -61,9 +61,14 @@ LinkedBigNumber::LinkedBigNumber(const LinkedBigNumber &from) : value(from.value
 }
 
 
+template<class T>
+LinkedBigNumber::LinkedBigNumber(const BigNumber<T> &from) :
+        LinkedBigNumber::LinkedBigNumber(from.to_string()) {}
+
 // destructor
 LinkedBigNumber::~LinkedBigNumber() {
     value = 0;
     sign = none;
     next = nullptr;
 }
+

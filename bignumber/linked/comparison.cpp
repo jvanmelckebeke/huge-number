@@ -56,10 +56,6 @@ bool LinkedBigNumber::operator<(sll number) const {
     return *this < LinkedBigNumber(number);
 }
 
-bool LinkedBigNumber::operator>(sll number) const {
-    return LinkedBigNumber(number) < *this;
-}
-
 bool LinkedBigNumber::operator<=(sll number) const {
     return *this <= LinkedBigNumber(number);
 }
@@ -110,10 +106,6 @@ bool LinkedBigNumber::operator<(const LinkedBigNumber &rhs) const {
     }
 }
 
-bool LinkedBigNumber::operator>(const LinkedBigNumber &rhs) const {
-    return rhs < *this;
-}
-
 bool LinkedBigNumber::operator<=(const LinkedBigNumber &rhs) const {
     return !(rhs < *this);
 }
@@ -121,5 +113,7 @@ bool LinkedBigNumber::operator<=(const LinkedBigNumber &rhs) const {
 bool LinkedBigNumber::operator>=(const LinkedBigNumber &rhs) const {
     return !(*this < rhs);
 }
+
+
 
 #pragma endregion
