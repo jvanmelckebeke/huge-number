@@ -30,7 +30,7 @@ LinkedBigNumber::LinkedBigNumber(const string &numberString) {
         return;
     }
 
-    int lastIdx = numberString.length() - 1;
+    size_t lastIdx = numberString.length() - 1;
     char lastChar = numberString[lastIdx];
 
     value = lastChar - '0';
@@ -54,10 +54,7 @@ LinkedBigNumber::LinkedBigNumber(const string &numberString) {
 
 // from constructor
 LinkedBigNumber::LinkedBigNumber(const LinkedBigNumber &from) : value(from.value), sign(from.sign) {
-    if (from.next)
-        next = new LinkedBigNumber(*from.next);
-    else
-        next = nullptr;
+    next = from.next ? new LinkedBigNumber(*from.next) : nullptr;
 }
 
 

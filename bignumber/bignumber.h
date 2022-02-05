@@ -103,13 +103,17 @@ public:
     virtual T &operator%=(sll number) = 0;
 
     //equality
-    virtual bool operator==(sll number) const = 0;
-
     virtual bool operator==(const T &rhs) const = 0;
 
-    virtual bool operator!=(sll number) const = 0;
-
     virtual bool operator!=(const T &rhs) const = 0;
+
+    virtual bool operator==(sll number) const {
+        return *this == T(number);
+    }
+
+    virtual bool operator!=(sll number) const {
+        return *this != T(number);
+    };
 
 
     //compare
@@ -129,13 +133,21 @@ public:
     };
 
 
-    virtual bool operator<=(const T &rhs) const = 0;
+    virtual bool operator<=(const T &rhs) const {
+        return !(*this > rhs);
+    };
 
-    virtual bool operator<=(sll number) const = 0;
+    virtual bool operator<=(sll number) const {
+        return !(*this > number);
+    };
 
-    virtual bool operator>=(const T &rhs) const = 0;
+    virtual bool operator>=(const T &rhs) const {
+        return !(*this < rhs);
+    };
 
-    virtual bool operator>=(sll number) const = 0;
+    virtual bool operator>=(sll number) const {
+        return !(*this < number);
+    };
 
 
     //misc
