@@ -99,7 +99,8 @@ public:
     virtual bool operator<(const T &rhs) const = 0;
 
     virtual bool operator>(const T &rhs) const {
-        return rhs < *this;
+        const T a = *this;
+        return rhs < a;
     }
 
     virtual bool operator<=(const T &rhs) const {

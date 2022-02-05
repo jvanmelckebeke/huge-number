@@ -5,14 +5,19 @@
 #include "linkedbignumber.h"
 
 string LinkedBigNumber::to_string() const {
+    string out;
     switch (sign) {
         case positive:
-            return std::to_string(value);
+            out = std::to_string(value);
+            break;
         case negative:
-            return "-" + std::to_string(value);
+            out = "-" + std::to_string(value);
+            break;
         case none:
-            return next->to_string() + std::to_string(value);
+            out = next->to_string() + std::to_string(value);
+            break;
         default:
-            return "";
+            out = "";
     }
+    return out;
 }

@@ -42,7 +42,7 @@ DivisionResult<LinkedBigNumber> LinkedBigNumber::divide(const LinkedBigNumber &b
         // meaning: getUnits() > babs.getUnits() + 1 && abs() > babs
         DivisionResult higherRangResult = next->divide(b);
 
-        result.next = new LinkedBigNumber(higherRangResult.result); // todo check if this changes anything
+        result.next = new LinkedBigNumber(higherRangResult.result);
         result.sign = none;
 
         if (higherRangResult.remainder == 0) {

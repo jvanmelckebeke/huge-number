@@ -36,12 +36,12 @@ LinkedBigNumber::LinkedBigNumber(const string &numberString) {
     value = lastChar - '0';
 
     if (lastIdx) {
-
         char before = numberString[lastIdx - 1];
 
         if (isdigit(before)) {
             sign = none;
             next = new LinkedBigNumber(numberString.substr(0, lastIdx));
+        return;
         } else if (before == '-') {
             sign = negative;
         }
@@ -59,8 +59,8 @@ LinkedBigNumber::LinkedBigNumber(const LinkedBigNumber &from) : value(from.value
 
 
 template<class T>
-LinkedBigNumber::LinkedBigNumber(const BigNumber<T> &from) :
-        LinkedBigNumber::LinkedBigNumber(from.to_string()) {}
+LinkedBigNumber::LinkedBigNumber(const BigNumber<T> &from) : LinkedBigNumber(from.to_string()) {
+}
 
 // destructor
 LinkedBigNumber::~LinkedBigNumber() {
