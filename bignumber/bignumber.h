@@ -43,7 +43,7 @@ class BigNumber {
 public:
     friend T powMod(const T &base, const T &exponent, const T &modulo);
 
-    friend T pow(const BigNumber<T> &base, const BigNumber<T> &exponent);
+    friend T pow(const T &base, const T &exponent);
 
 
     friend ostream &operator<<(ostream &os, const BigNumber &number) {
@@ -185,7 +185,7 @@ powMod(const T &base, const T &exponent, const T &modulo) {
 
 template<typename T>
 typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
-pow(const BigNumber<T> &base, const BigNumber<T> &exponent) {
+pow(const T &base, const T &exponent) {
     T result = T(1);
 
     T b = base.copy();
