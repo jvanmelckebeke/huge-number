@@ -33,12 +33,10 @@ private:
 
     [[nodiscard]] DivisionResult<LinkedBigNumber> divide(const LinkedBigNumber &b) const;
 
-protected:
-    void setSign(Sign nSign) override;
 
-    [[nodiscard]] Sign getSign() const override;
 
 public:
+
 
 #pragma region constructors
 
@@ -163,6 +161,11 @@ public:
     [[nodiscard]] int getUnits(int current = 0) const;
 
     [[nodiscard]] string to_string() const override;
+
+    void setSign(Sign nSign) override;
+
+    [[nodiscard]] Sign getSign() const override;
+
 #pragma endregion
 
 

@@ -27,6 +27,17 @@ enum Sign {
     none = 0, positive = 1, negative = -1
 };
 
+constexpr Sign invertSign(Sign sign) {
+    switch (sign) {
+        case positive:
+            return negative;
+        case negative:
+            return positive;
+        case none:
+            return none;
+    }
+}
+
 template<typename T>
 class BigNumber {
 public:
@@ -129,9 +140,18 @@ public:
     //misc
     virtual T copy() const = 0;
 
-    virtual T negate() const = 0;
+    [[nodiscard]] virtual T negate() const {
+        T cpy = copy();
+        cpy.setSign(invertSign(getSign()));
 
-    virtual T abs() const = 0;
+        return cpy;
+    };
+
+    virtual T abs() const {
+        T cpy = copy();
+        cpy.setSign(positive);
+        return cpy;
+    };
 
     virtual void setFrom(const T &other) = 0;
 
@@ -142,8 +162,10 @@ public:
 
 };
 
+
 template<typename T>
-T powMod(const T &base, const T &exponent, const T &modulo) {
+typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
+powMod(const T &base, const T &exponent, const T &modulo) {
     T result = T(1);
 
     T b = base % modulo;
@@ -161,9 +183,10 @@ T powMod(const T &base, const T &exponent, const T &modulo) {
     return result;
 }
 
-template<class T>
-T pow(const BigNumber<T> &base, const BigNumber<T> &exponent) {
-    T result =T(1);
+template<typename T>
+typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
+pow(const BigNumber<T> &base, const BigNumber<T> &exponent) {
+    T result = T(1);
 
     T b = base.copy();
     T exp = exponent.copy();
