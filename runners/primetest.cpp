@@ -1,5 +1,5 @@
 #include <iostream>
-#include "LinkedBigNumber.h"
+#include "linked/linkedbignumber.h"
 
 typedef unsigned long long int ull;
 
@@ -14,7 +14,7 @@ int main()
 
     // cool ones: 3221225473
 
-    BigNumber numToCheck = BigNumber("12345678910987654321");
+    LinkedBigNumber numToCheck = LinkedBigNumber("12345678910987654321");
     cout << "executing the Miller-Rabin primality test on p = " << numToCheck << endl;
 
     // rewrite number
@@ -22,7 +22,7 @@ int main()
 
     bool isPrime = true;
 
-    BigNumber d = numToCheck - 1; // = number - 1, but cooler
+    LinkedBigNumber d = numToCheck - 1;
     ull r = 0;
     while (d % 2 == 0)
     {
@@ -34,12 +34,12 @@ int main()
 
     for (int i = 0; i < nWitnesses; i++)
     {
-        BigNumber witness = BigNumber(WITNESSES[i]);
+        LinkedBigNumber witness = WITNESSES[i];
         cout << "[ Step 2." << (i + 1) << " ] for witness a = " << witness << " do: " << endl;
 
         cout << "--( 1  ) calculate a^d mod n ==> ";
 
-        BigNumber result = powMod(witness, d, numToCheck);
+        LinkedBigNumber result = powMod<LinkedBigNumber>(witness, d, numToCheck);
 
         /*
         this is some slow shit
@@ -60,8 +60,8 @@ int main()
 
             cout << "--( 3B ) in that case, we should check further" << endl;
 
-            BigNumber oldSecondaryResult = result;
-            BigNumber secondaryResult = result;
+            LinkedBigNumber oldSecondaryResult = result;
+            LinkedBigNumber secondaryResult = result;
             for (ull j = 0; j < r; j++)
             {
                 secondaryResult = oldSecondaryResult * oldSecondaryResult;

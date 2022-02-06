@@ -143,7 +143,7 @@ typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
 powMod(const T &base, const T &exponent, const T &modulo) {
     T result = T(1);
 
-    T b = base % modulo;
+    T b = base.abs() % modulo;
     T exp = exponent.copy();
 
     while (exp > 0) {
@@ -161,9 +161,10 @@ powMod(const T &base, const T &exponent, const T &modulo) {
 template<typename T>
 typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
 pow(const T &base, const T &exponent) {
-    T result = T(1);
+    T result = 1; // fixme: this is dirty, but works beautifully
 
-    T b = base.copy();
+
+    T b = base.copy().abs();
     T exp = exponent.copy();
 
     while (exp > 0) {
@@ -174,6 +175,10 @@ pow(const T &base, const T &exponent) {
         b *= b;
 
         exp /= 2;
+    }
+
+    if (exponent % 2 != 0) {
+        result.setSign(base.getSign());
     }
 
     return result;

@@ -11,10 +11,16 @@ LinkedBigNumber::LinkedBigNumber() {
 }
 
 LinkedBigNumber::LinkedBigNumber(sll number) {
-    if (number >= MAX_UNIT) {
+
+    if (ABS(number) >= MAX_UNIT) {
         sign = none;
-        value = number % MAX_UNIT;
-        next = new LinkedBigNumber(number / MAX_UNIT);
+        if (number < 0) {
+            value = -number % MAX_UNIT;
+            next = new LinkedBigNumber(number / MAX_UNIT);
+        } else {
+            value = number % MAX_UNIT;
+            next = new LinkedBigNumber(number / MAX_UNIT);
+        }
     } else {
         sign = GETSIGN(number);
         value = ABS(number);
@@ -41,7 +47,7 @@ LinkedBigNumber::LinkedBigNumber(const string &numberString) {
         if (isdigit(before)) {
             sign = none;
             next = new LinkedBigNumber(numberString.substr(0, lastIdx));
-        return;
+            return;
         } else if (before == '-') {
             sign = negative;
         }

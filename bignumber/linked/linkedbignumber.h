@@ -9,7 +9,7 @@
 #include "bignumber.h"
 
 #define GETSIGN(X) (((X) >= 0) ? positive : negative)
-#define ABS(X) (X)>= 0 ? (X) : (-(X))
+#define ABS(X) (((X)>= 0) ? (X) : (-(X)))
 
 #define MAX_UNIT 10
 
