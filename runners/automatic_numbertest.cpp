@@ -4,8 +4,11 @@
 
 
 #include <iostream>
-#include "bignumber.h"
 #include "helpers/testhelper.h"
+#include "linked/linkedbignumber.h"
+
+
+typedef LinkedBigNumber BigNumberImpl;
 
 int main() {
     // AUTO TEST
@@ -18,7 +21,7 @@ int main() {
                 8569513912588782822};
     cout << "=== VARS ===" << endl;
     for (auto num: ns) {
-        cout << num << " = " << BigNumber(num) << endl;
+        cout << num << " = " << BigNumberImpl(num) << endl;
     }
 
     cout << "=== END VARS ===" << endl;
@@ -26,7 +29,7 @@ int main() {
     for (auto num1: ns) {
 
         for (auto num2: ns) {
-            doTest(num1, num2);
+            Test<BigNumberImpl>(num1, num2, false, false);
         }
     }
 }

@@ -4,8 +4,11 @@
 
 #include <iostream>
 #include <fstream>
-#include "bignumber.h"
 #include "Timer.h"
+#include "linked/linkedbignumber.h"
+
+
+typedef LinkedBigNumber BigNumberImpl;
 
 using namespace std;
 
@@ -15,14 +18,14 @@ void write_file(ofstream &outfile, const string &operation, int number1, int num
 }
 
 int main() {
-    BigNumber modulus = BigNumber(1e6);
+    BigNumberImpl modulus = 1e6;
     Timer t = Timer();
 
     long long minute = time(nullptr) % 3600 / 60;
     long long hour = time(nullptr) % 86400 / 3600 + 1;
 
     ofstream outfile(
-            R"(C:\Users\Jari\Repos\random-primes\performances\performance)" + to_string(hour) + to_string(minute) +
+            R"(/home/jarivm/Repos/random-primes/performances/performance-)" + to_string(hour) + to_string(minute) +
             ".csv");
     cout << "starting" << endl;
 
@@ -31,8 +34,8 @@ int main() {
     for (int number1 = 1; number1 < 61; number1 += 1) {
         cout << number1 << endl;
         for (int number2 = 1; number2 < 61; number2 += 1) {
-            BigNumber a = BigNumber(number1);
-            BigNumber b = BigNumber(number2);
+            BigNumberImpl a = BigNumberImpl(number1);
+            BigNumberImpl b = BigNumberImpl(number2);
 
             t.startTimer();
             a + b;
@@ -65,12 +68,12 @@ int main() {
             write_file(outfile, "remainder", number1, number2, timeRemainder);
 
             t.startTimer();
-            pow(a, b);
+            pow<BigNumberImpl>(a, b);
             TimeDuration timePower = t.lapTimer();
             write_file(outfile, "power", number1, number2, timePower);
 
             t.startTimer();
-            powMod(a, b, modulus);
+            powMod<BigNumberImpl>(a, b, modulus);
             TimeDuration timePowMod = t.lapTimer();
 
             write_file(outfile, "powMod", number1, number2, timePowMod);

@@ -2,34 +2,23 @@
 // Created by Jari on 17/01/2022.
 //
 
-#include "bignumber.h"
+#include "../linkedbignumber.h"
 
-BigNumber BigNumber::operator-(sll num) const {
-    BigNumber cpy = copy();
-    cpy -= BigNumber(num);
-    return cpy;
-}
-
-BigNumber BigNumber::operator-(const BigNumber &b) const {
-    BigNumber cpy = copy();
+LinkedBigNumber LinkedBigNumber::operator-(const LinkedBigNumber &b) const {
+    LinkedBigNumber cpy = copy();
     cpy -= b;
     return cpy;
 }
 
-BigNumber &BigNumber::operator-=(sll number) {
-    *this -= BigNumber(number);
-    return *this;
-}
-
-BigNumber &BigNumber::operator-=(const BigNumber &b) {
+LinkedBigNumber &LinkedBigNumber::operator-=(const LinkedBigNumber &b) {
     if (getSign() != b.getSign()) {
         *this += b.negate();
         return *this;
     }
 
     if (*this < b) {
-        BigNumber result = b - *this;
-        BigNumber negated = result.negate();
+        LinkedBigNumber result = b - *this;
+        LinkedBigNumber negated = result.negate();
         setFrom(negated);
         return *this;
     }

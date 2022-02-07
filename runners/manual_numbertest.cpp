@@ -2,12 +2,15 @@
 // Created by Jari on 30/12/2021.
 //
 
-#include "bignumber.h"
 #include "helpers/testhelper.h"
+#include "linked/linkedbignumber.h"
+
+typedef LinkedBigNumber BigNumberImpl;
 
 int main() {
     // MANUAL TEST
 
-    sll  num1 = 16, num2 = 8569513912588782822;
-    doTest(num1, num2, true);
+    sll  num1 = -254, num2 = 17;
+
+    Test<BigNumberImpl>(num1, num2, true, true);
 }

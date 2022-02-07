@@ -1,15 +1,11 @@
 //
 // Created by Jari on 14/01/2022.
 //
-#include "bignumber.h"
+#include "linkedbignumber.h"
 
 #pragma region equality
 
-bool BigNumber::operator==(sll number) const {
-    return *this == BigNumber(number);
-}
-
-bool BigNumber::operator==(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator==(const LinkedBigNumber &rhs) const {
 
     if (sign && rhs.sign) {
         return sign == rhs.sign && value == rhs.value;
@@ -26,54 +22,15 @@ bool BigNumber::operator==(const BigNumber &rhs) const {
     return false;
 }
 
-bool BigNumber::operator!=(sll number) const {
-    return *this != BigNumber(number);
-}
-
-bool BigNumber::operator!=(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator!=(const LinkedBigNumber &rhs) const {
     return sign != rhs.sign || value != rhs.value || !(*this == rhs);
 }
 
 #pragma endregion
 
-#pragma region compare numbers
+#pragma region comparison
 
-bool BigNumber::operator<(sll number) const {
-    if (sign) {
-        return value * sign < number;
-    }
-
-    Sign fullSign = getSign();
-
-    if (fullSign != GETSIGN(number)) {
-        return fullSign < GETSIGN(number);
-    }
-
-    if (number == 0) {
-        return fullSign == negative;
-    }
-
-    return *this < BigNumber(number);
-}
-
-bool BigNumber::operator>(sll number) const {
-    return BigNumber(number) < *this;
-}
-
-bool BigNumber::operator<=(sll number) const {
-    return *this <= BigNumber(number);
-}
-
-bool BigNumber::operator>=(sll number) const {
-    return BigNumber(number) <= *this;
-}
-
-#pragma endregion
-
-
-#pragma region compare bigassnumber
-
-bool BigNumber::operator<(const BigNumber &rhs) const {
+bool LinkedBigNumber::operator<(const LinkedBigNumber &rhs) const {
     // recursively compare signs
     switch (sign) {
         case positive:
@@ -105,19 +62,10 @@ bool BigNumber::operator<(const BigNumber &rhs) const {
                     }
                     return *next < *rhs.next;
             }
+        default:
+            return true;
     }
 }
 
-bool BigNumber::operator>(const BigNumber &rhs) const {
-    return rhs < *this;
-}
-
-bool BigNumber::operator<=(const BigNumber &rhs) const {
-    return !(rhs < *this);
-}
-
-bool BigNumber::operator>=(const BigNumber &rhs) const {
-    return !(*this < rhs);
-}
 
 #pragma endregion

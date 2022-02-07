@@ -1,5 +1,5 @@
 //
-// Created by Jari on 07/01/2022.
+// Created by jarivm on 1/02/22.
 //
 
 #ifndef RANDOM_PRIMES_BIGNUMBER_H
@@ -7,154 +7,189 @@
 
 #include <ostream>
 
-#define GETSIGN(X) (((X) >= 0) ? positive : negative)
-#define ABS(X) (X)>= 0 ? (X) : (-(X))
-
-#define MAX_UNIT 10
-
-
 using namespace std;
 
+
 typedef long long int sll;
-typedef unsigned char unit;
+
+
+template<typename T>
+class BigNumber;
+
+template<typename T>
+class DivisionResult {
+public:
+    T result;
+    T remainder;
+};
 
 enum Sign {
     none = 0, positive = 1, negative = -1
 };
 
-class BigNumber;
+constexpr Sign invertSign(Sign sign) {
+    switch (sign) {
+        case positive:
+            return negative;
+        case negative:
+            return positive;
+        case none:
+            return none;
+    }
+}
 
-typedef struct {
-    BigNumber *result;
-    BigNumber *remainder;
-} DivisionResult;
-
-
-BigNumber pow(const BigNumber &base, const BigNumber &exponent);
-
-BigNumber powMod(const BigNumber &a, const BigNumber &b, const BigNumber &modulo);
-
+template<class T>
 class BigNumber {
-    explicit operator std::string() const;
-
-    friend ostream &operator<<(ostream &os, const BigNumber &number);
-
-private:
-    unit value;
-    Sign sign;
-    BigNumber *next;
-
-    BigNumber &addRang(unit amount);
-
-    BigNumber &addToRang(int rang, sll amount);
-
-    BigNumber &removeRang(unit amount);
-
-    [[nodiscard]] DivisionResult divide(const BigNumber &b) const;
-
-
 public:
 
-    explicit BigNumber(const string &numberString);
+    friend T powMod(const T &base, const T &exponent, const T &modulo);
 
-    explicit BigNumber(sll number);
+    friend T pow(const T &base, const T &exponent);
 
-    BigNumber();
+    friend ostream &operator<<(ostream &os, const BigNumber &number) {
+        os << number.to_string();
+        return os;
+    }
 
-    ~BigNumber();
+    explicit operator std::string() {
+        return to_string();
+    }
 
-    BigNumber(const BigNumber &copy) ;
+    virtual void setSign(Sign nSign) = 0;
 
+    [[nodiscard]] virtual Sign getSign() const = 0;
 
-    BigNumber operator+(const BigNumber &b) const;
-
-    BigNumber operator+(sll number) const;
-
-
-    BigNumber &operator+=(const BigNumber &b);
-
-    BigNumber &operator+=(sll number);
-
-
-    BigNumber operator-(const BigNumber &b) const;
-
-    BigNumber operator-(sll num) const;
+    virtual T operator+(const T &b) const = 0;
 
 
-    BigNumber &operator-=(const BigNumber &b);
-
-    BigNumber &operator-=(sll number);
-
-    BigNumber operator*(sll number) const;
-
-    BigNumber operator*(const BigNumber &other) const;
+    virtual T &operator+=(const T &b) = 0;
 
 
-    BigNumber &operator*=(const BigNumber &b);
-
-    BigNumber &operator*=(sll number);
+    virtual T operator-(const T &b) const = 0;
 
 
-    BigNumber operator/(const BigNumber &b) const;
+    virtual T &operator-=(const T &b) = 0;
 
-    BigNumber operator/(sll number) const;
 
-    BigNumber &operator/=(const BigNumber &b);
+    virtual T operator*(const T &b) const = 0;
 
-    BigNumber &operator/=(sll number);
 
-    BigNumber operator%(const BigNumber &b) const;
+    virtual T &operator*=(const T &b) = 0;
 
-    BigNumber operator%(sll number) const;
 
-    BigNumber &operator%=(const BigNumber &b);
+    virtual T operator/(const T &b) const = 0;
 
-    BigNumber &operator%=(sll number);
 
-    //misc
-    void setFrom(const BigNumber &other);
+    virtual T &operator/=(const T &b) = 0;
 
-    BigNumber negate() const;
 
-    BigNumber copy() const;
+    virtual T operator%(const T &b) const = 0;
 
-    sll numValue() const;
 
-    BigNumber abs() const;
+    virtual T &operator%=(const T &b) = 0;
 
-    void setSign(Sign nSign);
-
-    Sign getSign() const;
-
-    int getUnits(int current = 0) const;
 
     //equality
-    bool operator==(sll number) const;
+    virtual bool operator==(const T &rhs) const = 0;
 
-    bool operator==(const BigNumber &rhs) const;
-
-    bool operator!=(sll number) const;
-
-    bool operator!=(const BigNumber &rhs) const;
+    virtual bool operator!=(const T &rhs) const = 0;
 
 
     //compare
-    bool operator<(sll number) const;
+    virtual bool operator<(const T &rhs) const = 0;
 
-    bool operator<(const BigNumber &rhs) const;
+    virtual bool operator>(const T &rhs) const {
+        const T a = *this;
+        return rhs < a;
+    }
 
-    bool operator>(const BigNumber &rhs) const;
+    virtual bool operator<=(const T &rhs) const {
+        return !(*this > rhs);
+    };
 
-    bool operator>(sll number) const;
+    virtual bool operator>=(const T &rhs) const {
+        return !(*this < rhs);
+    };
 
-    bool operator<=(const BigNumber &rhs) const;
 
-    bool operator<=(sll number) const;
+    //misc
+    virtual T copy() const = 0;
 
-    bool operator>=(const BigNumber &rhs) const;
+    [[nodiscard]] virtual T negate() const {
+        T cpy = copy();
+        cpy.setSign(invertSign(getSign()));
 
-    bool operator>=(sll number) const;
+        return cpy;
+    };
+
+    virtual T abs() const {
+        T cpy = copy();
+        cpy.setSign(positive);
+        return cpy;
+    };
+
+    virtual void setFrom(const T &other) = 0;
+
+    [[nodiscard]] virtual sll numValue() const = 0;
+
+    [[nodiscard]] virtual string to_string() const = 0;
+
+
 };
 
+
+template<typename T>
+typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
+powMod(const T &base, const T &exponent, const T &modulo) {
+    T result = T(1);
+
+    T b = base.abs() % modulo;
+    T exp = exponent.copy();
+
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result = (result * b) % modulo;
+        }
+
+        b = (b * b) % modulo;
+        exp /= 2;
+    }
+
+    if (base < 0 && exponent % 2 != 0) {
+        if (result == 0) {
+            return result;
+        }
+
+        return T(modulo) - result;
+    }
+
+    return result;
+}
+
+template<typename T>
+typename std::enable_if<is_base_of<BigNumber<T>, T>::value, T>::type
+pow(const T &base, const T &exponent) {
+    T result = 1; // fixme: this is dirty, but works beautifully
+
+
+    T b = base.copy().abs();
+    T exp = exponent.copy();
+
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result *= b;
+        }
+
+        b *= b;
+
+        exp /= 2;
+    }
+
+    if (exponent % 2 != 0) {
+        result.setSign(base.getSign());
+    }
+
+    return result;
+}
 
 #endif //RANDOM_PRIMES_BIGNUMBER_H

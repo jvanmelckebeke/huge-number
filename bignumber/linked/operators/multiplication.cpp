@@ -3,26 +3,22 @@
 //
 
 
-#include "bignumber.h"
+#include "../linkedbignumber.h"
 
-BigNumber BigNumber::operator*(sll number) const {
-    return *this * BigNumber(number);
-}
-
-BigNumber BigNumber::operator*(const BigNumber &other) const {
+LinkedBigNumber LinkedBigNumber::operator*(const LinkedBigNumber &other) const {
     Sign resultSign = (getSign() == other.getSign()) ? positive : negative;
 
 
-    BigNumber result = BigNumber();
+    LinkedBigNumber result = LinkedBigNumber();
 
     int ranga = 0;
 
-    BigNumber a = copy();
+    LinkedBigNumber a = copy();
 
     while (true) {
 
 
-        BigNumber b = other.copy();
+        LinkedBigNumber b = other.copy();
         int rangb = 0;
 
         result.addToRang(ranga + rangb, a.value * b.value);
@@ -46,14 +42,7 @@ BigNumber BigNumber::operator*(const BigNumber &other) const {
     }
 }
 
-
-BigNumber &BigNumber::operator*=(sll number) {
-    *this *= BigNumber(number);
-
-    return *this;
-}
-
-BigNumber &BigNumber::operator*=(const BigNumber &b) {
+LinkedBigNumber &LinkedBigNumber::operator*=(const LinkedBigNumber &b) {
     *this = *this * b;
     return *this;
 }
