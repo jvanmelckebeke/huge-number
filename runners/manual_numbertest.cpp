@@ -10,7 +10,7 @@ typedef LinkedBigNumber BigNumberImpl;
 int main() {
     // MANUAL TEST
 
-    sll  num1 = -20, num2 = 30;
+    sll  num1 = -254, num2 = 17;
 
     Test<BigNumberImpl>(num1, num2, true, true);
 }

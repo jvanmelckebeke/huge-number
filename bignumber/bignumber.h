@@ -155,6 +155,14 @@ powMod(const T &base, const T &exponent, const T &modulo) {
         exp /= 2;
     }
 
+    if (base < 0 && exponent % 2 != 0) {
+        if (result == 0) {
+            return result;
+        }
+
+        return T(modulo) - result;
+    }
+
     return result;
 }
 
